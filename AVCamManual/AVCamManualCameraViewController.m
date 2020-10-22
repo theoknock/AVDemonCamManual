@@ -4,6 +4,10 @@
  
  Abstract:
  View controller for camera interface.
+ 
+ Modified by James Alan Bush (The Life of a Demoniac)
+ demonicactivity.blogspot.com
+ 
  */
 
 @import AVFoundation;

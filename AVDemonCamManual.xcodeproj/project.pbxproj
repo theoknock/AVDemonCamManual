@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,7 @@
 
 /* Begin PBXFileReference section */
 		229A154B1B5036D60048EE85 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		7A49F59A1B38C02B003D7AF5 /* AVCamManual.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVCamManual.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A49F59A1B38C02B003D7AF5 /* AVDemonCamManual.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVDemonCamManual.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A49F59E1B38C02B003D7AF5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7A49F5A71B38C02B003D7AF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A49F5B51B38C094003D7AF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -44,11 +44,12 @@
 				7A49F59B1B38C02B003D7AF5 /* Products */,
 			);
 			sourceTree = "<group>";
+			wrapsLines = 0;
 		};
 		7A49F59B1B38C02B003D7AF5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7A49F59A1B38C02B003D7AF5 /* AVCamManual.app */,
+				7A49F59A1B38C02B003D7AF5 /* AVDemonCamManual.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,9 +77,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7A49F5991B38C02B003D7AF5 /* AVCamManual */ = {
+		7A49F5991B38C02B003D7AF5 /* AVDemonCamManual */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7A49F5B11B38C02B003D7AF5 /* Build configuration list for PBXNativeTarget "AVCamManual" */;
+			buildConfigurationList = 7A49F5B11B38C02B003D7AF5 /* Build configuration list for PBXNativeTarget "AVDemonCamManual" */;
 			buildPhases = (
 				7A49F5961B38C02B003D7AF5 /* Sources */,
 				7A49F5981B38C02B003D7AF5 /* Resources */,
@@ -87,9 +88,9 @@
 			);
 			dependencies = (
 			);
-			name = AVCamManual;
+			name = AVDemonCamManual;
 			productName = AVCamManual;
-			productReference = 7A49F59A1B38C02B003D7AF5 /* AVCamManual.app */;
+			productReference = 7A49F59A1B38C02B003D7AF5 /* AVDemonCamManual.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -99,14 +100,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1200;
+				ORGANIZATIONNAME = "The Life of a Demoniac";
 				TargetAttributes = {
 					7A49F5991B38C02B003D7AF5 = {
 						CreatedOnToolsVersion = 7.0;
 					};
 				};
 			};
-			buildConfigurationList = 7A49F5951B38C02B003D7AF5 /* Build configuration list for PBXProject "AVCamManual" */;
-			compatibilityVersion = "Xcode 10.0";
+			buildConfigurationList = 7A49F5951B38C02B003D7AF5 /* Build configuration list for PBXProject "AVDemonCamManual" */;
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -119,7 +121,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7A49F5991B38C02B003D7AF5 /* AVCamManual */,
+				7A49F5991B38C02B003D7AF5 /* AVDemonCamManual */,
 			);
 		};
 /* End PBXProject section */
@@ -286,6 +288,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 0.5;
 				DEVELOPMENT_TEAM = N9987K9442;
 				INFOPLIST_FILE = "$(SRCROOT)/AVCamManual/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -293,8 +296,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AVCamManual";
-				PRODUCT_NAME = AVCamManual;
+				PRODUCT_NAME = AVDemonCamManual;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -307,6 +311,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 0.5;
 				DEVELOPMENT_TEAM = N9987K9442;
 				INFOPLIST_FILE = "$(SRCROOT)/AVCamManual/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -314,8 +319,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AVCamManual";
-				PRODUCT_NAME = AVCamManual;
+				PRODUCT_NAME = AVDemonCamManual;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -325,7 +331,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7A49F5951B38C02B003D7AF5 /* Build configuration list for PBXProject "AVCamManual" */ = {
+		7A49F5951B38C02B003D7AF5 /* Build configuration list for PBXProject "AVDemonCamManual" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7A49F5AF1B38C02B003D7AF5 /* Debug */,
@@ -334,7 +340,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7A49F5B11B38C02B003D7AF5 /* Build configuration list for PBXNativeTarget "AVCamManual" */ = {
+		7A49F5B11B38C02B003D7AF5 /* Build configuration list for PBXNativeTarget "AVDemonCamManual" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7A49F5B21B38C02B003D7AF5 /* Debug */,

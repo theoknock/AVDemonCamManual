@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7A49F5991B38C02B003D7AF5"
                BuildableName = "AVCamManual.app"
-               BlueprintName = "AVCamManual"
-               ReferencedContainer = "container:AVCamManual.xcodeproj">
+               BlueprintName = "AVDemonCamManual"
+               ReferencedContainer = "container:AVDemonCamManual.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,8 +32,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7A49F5991B38C02B003D7AF5"
             BuildableName = "AVCamManual.app"
-            BlueprintName = "AVCamManual"
-            ReferencedContainer = "container:AVCamManual.xcodeproj">
+            BlueprintName = "AVDemonCamManual"
+            ReferencedContainer = "container:AVDemonCamManual.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -55,8 +55,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7A49F5991B38C02B003D7AF5"
             BuildableName = "AVCamManual.app"
-            BlueprintName = "AVCamManual"
-            ReferencedContainer = "container:AVCamManual.xcodeproj">
+            BlueprintName = "AVDemonCamManual"
+            ReferencedContainer = "container:AVDemonCamManual.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,8 +72,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7A49F5991B38C02B003D7AF5"
             BuildableName = "AVCamManual.app"
-            BlueprintName = "AVCamManual"
-            ReferencedContainer = "container:AVCamManual.xcodeproj">
+            BlueprintName = "AVDemonCamManual"
+            ReferencedContainer = "container:AVDemonCamManual.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
