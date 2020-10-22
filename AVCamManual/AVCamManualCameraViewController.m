@@ -303,11 +303,14 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     // Manual focus controls
     self.focusModes = @[@(AVCaptureFocusModeContinuousAutoFocus), @(AVCaptureFocusModeLocked)];
     
-    self.focusModeControl.enabled = ( self.videoDevice != nil );
-    self.focusModeControl.selectedSegmentIndex = 1;//[self.focusModes indexOfObject:@(self.videoDevice.focusMode)];
-    for ( NSNumber *mode in self.focusModes ) {
-        [self.focusModeControl setEnabled:[self.videoDevice isFocusModeSupported:mode.intValue] forSegmentAtIndex:[self.focusModes indexOfObject:mode]];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"Setting selected index of focus mode control to 1 (manual)");
+        self.focusModeControl.enabled = ( self.videoDevice != nil );
+        [self.focusModeControl setSelectedSegmentIndex:1];//[self.focusModes indexOfObject:@(self.videoDevice.focusMode)];
+        for ( NSNumber *mode in self.focusModes ) {
+            [self.focusModeControl setEnabled:[self.videoDevice isFocusModeSupported:mode.intValue] forSegmentAtIndex:[self.focusModes indexOfObject:mode]];
+        }
+    });
     
     self.lensPositionSlider.minimumValue = 0.0;
     self.lensPositionSlider.maximumValue = 1.0;
@@ -487,6 +490,19 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         [self.session addInput:videoDeviceInput];
         self.videoDeviceInput = videoDeviceInput;
         self.videoDevice = videoDevice;
+        
+        // Configure default camera focus and exposure properties (set to manual vs. auto)
+        __autoreleasing NSError *error = nil;
+        [self.videoDevice lockForConfiguration:&error];
+        @try {
+            [self.videoDevice setFocusMode:AVCaptureFocusModeLocked];
+            [self.videoDevice setExposureMode:AVCaptureExposureModeCustom];
+        } @catch (NSException *exception) {
+            NSLog(@"Error setting focus mode: %@", error.description);
+        } @finally {
+            [self.videoDevice unlockForConfiguration];
+        }
+        
         
         dispatch_async( dispatch_get_main_queue(), ^{
             /*
