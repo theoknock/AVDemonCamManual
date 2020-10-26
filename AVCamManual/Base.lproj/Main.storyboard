@@ -12,7 +12,7 @@
         <!--Cam Manual Camera View Controller-->
         <scene sceneID="o5M-B8-Hza">
             <objects>
-                <viewController id="zFy-Vn-e8f" customClass="AVCamManualCameraViewController" sceneMemberID="viewController">
+                <viewController interfaceStyle="dark" id="zFy-Vn-e8f" customClass="AVCamManualCameraViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9Za-05-zwY" customClass="AVCamManualPreviewView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

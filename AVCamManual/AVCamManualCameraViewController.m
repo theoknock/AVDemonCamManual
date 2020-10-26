@@ -21,7 +21,6 @@ static void * SessionRunningContext = &SessionRunningContext;
 static void * FocusModeContext = &FocusModeContext;
 static void * ExposureModeContext = &ExposureModeContext;
 static void * TorchLevelContext = &TorchLevelContext;
-//static void * WhiteBa/Users/Shared/AVCamManualExtendingAVCamtoUseManualCaptureAPI/AVCamManual/AVCamManualCameraViewController.m:static void * DeviceWhiteBalanceGainsContext = &DeviceWhiteBalanceGainsContext;lanceModeContext = &WhiteBalanceModeContext;
 static void * LensPositionContext = &LensPositionContext;
 static void * ExposureDurationContext = &ExposureDurationContext;
 static void * ISOContext = &ISOContext;
