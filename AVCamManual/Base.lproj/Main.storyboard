@@ -288,29 +288,29 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tCR-0s-Q5n">
                                         <rect key="frame" x="0.0" y="260" width="374" height="32"/>
                                         <subviews>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="78P-0Y-FH9">
-                                                <rect key="frame" x="45" y="0.0" width="329" height="32"/>
-                                                <segments>
-                                                    <segment title="Off"/>
-                                                    <segment title="On"/>
-                                                </segments>
-                                            </segmentedControl>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aoU-C4-d9O">
-                                                <rect key="frame" x="0.0" y="7" width="37" height="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Zoom" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aoU-C4-d9O">
+                                                <rect key="frame" x="0.0" y="8" width="37.333333333333336" height="16"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zoT-AH-PKG">
+                                                <rect key="frame" x="336" y="8" width="37.333333333333336" height="16"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="uyM-gg-aDC" userLabel="Zoom Factor Slider">
+                                                <rect key="frame" x="58" y="0.0" width="284" height="33"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <action selector="changeVideoZoomFactor:" destination="zFy-Vn-e8f" eventType="valueChanged" id="GCd-v8-rDm"/>
+                                                </connections>
+                                            </slider>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstItem="78P-0Y-FH9" firstAttribute="leading" secondItem="aoU-C4-d9O" secondAttribute="trailing" constant="8" id="3LK-I1-vRj"/>
-                                            <constraint firstItem="78P-0Y-FH9" firstAttribute="top" secondItem="tCR-0s-Q5n" secondAttribute="top" id="EZ1-MN-vld"/>
-                                            <constraint firstAttribute="bottom" secondItem="78P-0Y-FH9" secondAttribute="bottom" constant="1" id="fF5-Ng-kMc"/>
-                                            <constraint firstItem="aoU-C4-d9O" firstAttribute="centerY" secondItem="78P-0Y-FH9" secondAttribute="centerY" id="g71-Ba-7B6"/>
-                                            <constraint firstAttribute="trailing" secondItem="78P-0Y-FH9" secondAttribute="trailing" id="jcC-ZP-A29"/>
-                                            <constraint firstItem="aoU-C4-d9O" firstAttribute="leading" secondItem="tCR-0s-Q5n" secondAttribute="leading" id="vP1-Dv-CBQ"/>
-                                        </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XXb-cy-BED" userLabel="ManualHUD Photo View">
                                         <rect key="frame" x="0.0" y="414" width="374" height="32"/>
@@ -340,6 +340,7 @@
                                             <segment title="" image="bolt.circle" catalog="system"/>
                                             <segment title="" image="viewfinder.circle" catalog="system"/>
                                             <segment title="" image="timer" catalog="system"/>
+                                            <segment title="" image="magnifyingglass.circle" catalog="system"/>
                                         </segments>
                                         <connections>
                                             <action selector="changeManualHUD:" destination="zFy-Vn-e8f" eventType="valueChanged" id="cyM-Ns-N9M"/>
@@ -360,6 +361,7 @@
                                     <constraint firstAttribute="trailing" secondItem="tCR-0s-Q5n" secondAttribute="trailing" id="grw-YA-DLQ"/>
                                     <constraint firstItem="XXb-cy-BED" firstAttribute="top" secondItem="amH-FF-rBy" secondAttribute="top" constant="414" placeholder="YES" id="hhP-8I-M5G"/>
                                     <constraint firstItem="XXb-cy-BED" firstAttribute="leading" secondItem="amH-FF-rBy" secondAttribute="leading" id="p7h-MI-ojb"/>
+                                    <constraint firstAttribute="bottom" secondItem="tCR-0s-Q5n" secondAttribute="bottom" constant="374" id="pLL-CC-12u"/>
                                     <constraint firstAttribute="trailing" secondItem="IWw-b6-z2x" secondAttribute="trailing" id="vap-ya-Eb9"/>
                                     <constraint firstItem="IWw-b6-z2x" firstAttribute="top" secondItem="amH-FF-rBy" secondAttribute="top" priority="900" constant="40" id="wTB-xL-beH"/>
                                     <constraint firstItem="IWw-b6-z2x" firstAttribute="top" secondItem="amH-FF-rBy" secondAttribute="top" constant="102" placeholder="YES" id="xjE-2Z-AQx"/>
@@ -429,22 +431,24 @@
                         <outlet property="lensPositionNameLabel" destination="ZAO-ER-qJK" id="u0g-Hy-NmH"/>
                         <outlet property="lensPositionSlider" destination="TV0-Z0-OUU" id="LvC-Bw-06A"/>
                         <outlet property="lensPositionValueLabel" destination="ibD-PK-g3Q" id="w0v-Zh-7Rz"/>
-                        <outlet property="lensStabilizationControl" destination="78P-0Y-FH9" id="F8z-FE-vY0"/>
                         <outlet property="manualHUD" destination="amH-FF-rBy" id="5GY-L7-Ddm"/>
                         <outlet property="manualHUDExposureView" destination="IWw-b6-z2x" id="dOb-NO-TEe"/>
                         <outlet property="manualHUDFocusView" destination="MDr-ZD-uoq" id="zuW-eL-JvW"/>
                         <outlet property="manualHUDLensStabilizationView" destination="tCR-0s-Q5n" id="j8Z-6n-aIy"/>
                         <outlet property="manualHUDPhotoView" destination="XXb-cy-BED" id="srv-cL-suW"/>
+                        <outlet property="manualHUDVideoZoomFactorView" destination="tCR-0s-Q5n" id="9y7-ww-8PG"/>
                         <outlet property="previewView" destination="9Za-05-zwY" id="llM-aG-xvt"/>
                         <outlet property="recordButton" destination="mcl-en-N2e" id="i4O-yh-h1k"/>
                         <outlet property="resumeButton" destination="gwL-zO-1Pw" id="xvg-vj-GpD"/>
                         <outlet property="torchLevelSlider" destination="VNK-3C-FPF" id="7oX-rV-aOe"/>
+                        <outlet property="videoZoomFactorSlider" destination="uyM-gg-aDC" id="Wqr-vq-IB7"/>
+                        <outlet property="videoZoomFactorValueLabel" destination="zoT-AH-PKG" id="eve-9H-OdZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4sS-pb-l0E" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="CON-0p-q28"/>
             </objects>
-            <point key="canvasLocation" x="1037.68115942029" y="473.4375"/>
+            <point key="canvasLocation" x="1257.9710144927537" y="454.6875"/>
         </scene>
     </scenes>
     <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -453,6 +457,7 @@
         <image name="light.max" catalog="system" width="128" height="72"/>
         <image name="light.min" catalog="system" width="128" height="74"/>
         <image name="lock.circle" catalog="system" width="128" height="121"/>
+        <image name="magnifyingglass.circle" catalog="system" width="128" height="121"/>
         <image name="record.circle" catalog="system" width="128" height="121"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="timer" catalog="system" width="128" height="121"/>

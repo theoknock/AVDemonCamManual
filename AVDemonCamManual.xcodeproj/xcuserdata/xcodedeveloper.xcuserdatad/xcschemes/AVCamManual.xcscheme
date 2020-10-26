@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7A49F5991B38C02B003D7AF5"
-               BuildableName = "AVCamManual.app"
+               BuildableName = "AVDemonCamManual.app"
                BlueprintName = "AVDemonCamManual"
                ReferencedContainer = "container:AVDemonCamManual.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7A49F5991B38C02B003D7AF5"
-            BuildableName = "AVCamManual.app"
+            BuildableName = "AVDemonCamManual.app"
             BlueprintName = "AVDemonCamManual"
             ReferencedContainer = "container:AVDemonCamManual.xcodeproj">
          </BuildableReference>
@@ -54,7 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7A49F5991B38C02B003D7AF5"
-            BuildableName = "AVCamManual.app"
+            BuildableName = "AVDemonCamManual.app"
             BlueprintName = "AVDemonCamManual"
             ReferencedContainer = "container:AVDemonCamManual.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7A49F5991B38C02B003D7AF5"
-            BuildableName = "AVCamManual.app"
+            BuildableName = "AVDemonCamManual.app"
             BlueprintName = "AVDemonCamManual"
             ReferencedContainer = "container:AVDemonCamManual.xcodeproj">
          </BuildableReference>

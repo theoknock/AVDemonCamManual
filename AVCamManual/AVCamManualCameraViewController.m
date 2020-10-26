@@ -27,7 +27,7 @@ static void * ExposureDurationContext = &ExposureDurationContext;
 static void * ISOContext = &ISOContext;
 static void * ExposureTargetBiasContext = &ExposureTargetBiasContext;
 static void * ExposureTargetOffsetContext = &ExposureTargetOffsetContext;
-//static void * DeviceWhiteBalanceGainsContext = &DeviceWhiteBalanceGainsContext;
+static void * VideoZoomFactorContext = &VideoZoomFactorContext;
 
 typedef NS_ENUM( NSInteger, AVCamManualSetupResult ) {
     AVCamManualSetupResultSuccess,
@@ -75,6 +75,10 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 @property (nonatomic, weak) IBOutlet UISlider *exposureTargetOffsetSlider;
 @property (nonatomic, weak) IBOutlet UILabel *exposureTargetOffsetNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *exposureTargetOffsetValueLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *manualHUDVideoZoomFactorView;
+@property (weak, nonatomic) IBOutlet UILabel *videoZoomFactorValueLabel;
+@property (weak, nonatomic) IBOutlet UISlider *videoZoomFactorSlider;
 
 @property (weak, nonatomic) IBOutlet UIView *manualHUDPhotoView;
 @property (weak, nonatomic) IBOutlet UISlider *torchLevelSlider;
@@ -161,23 +165,23 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         {
             // The user has previously granted access to the camera
             AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
-                
-                if ( [self.session canAddOutput:movieFileOutput] ) {
-                    [self.session beginConfiguration];
-                    [self.session addOutput:movieFileOutput];
-                    self.session.sessionPreset = AVCaptureSessionPresetHigh;
-                    AVCaptureConnection *connection = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
-                    if ( connection.isVideoStabilizationSupported ) {
-                        connection.preferredVideoStabilizationMode = AVCaptureVideoStabilizationModeAuto;
-                    }
-                    [self.session commitConfiguration];
-                    
-                    self.movieFileOutput = movieFileOutput;
-                    
-                    dispatch_async( dispatch_get_main_queue(), ^{
-                        self.recordButton.enabled = YES;
-                    } );
+            
+            if ( [self.session canAddOutput:movieFileOutput] ) {
+                [self.session beginConfiguration];
+                [self.session addOutput:movieFileOutput];
+                self.session.sessionPreset = AVCaptureSessionPreset3840x2160;
+                AVCaptureConnection *connection = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
+                if ( connection.isVideoStabilizationSupported ) {
+                    connection.preferredVideoStabilizationMode = AVCaptureVideoStabilizationModeAuto;
                 }
+                [self.session commitConfiguration];
+                
+                self.movieFileOutput = movieFileOutput;
+                
+                dispatch_async( dispatch_get_main_queue(), ^{
+                    self.recordButton.enabled = YES;
+                } );
+            }
             
             break;
         }
@@ -360,6 +364,11 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     self.exposureTargetOffsetSlider.value = self.videoDevice.exposureTargetOffset;
     self.exposureTargetOffsetSlider.enabled = NO;
     
+    self.videoZoomFactorSlider.minimumValue = 1.0;
+    self.videoZoomFactorSlider.maximumValue = self.videoDevice.activeFormat.videoMaxZoomFactor;
+    self.videoZoomFactorSlider.value = 1.0;
+    self.videoZoomFactorSlider.enabled = YES;
+    
     // To-Do: Restore these for "color-contrasting" overwhite/overblack subject areas (where luminosity contrasting fails)
     
     // Manual white balance controls
@@ -386,7 +395,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     
     self.lensStabilizationControl.enabled = ( self.videoDevice != nil );
     self.lensStabilizationControl.selectedSegmentIndex = 0;
-//    [self.lensStabilizationControl setEnabled:self.photoOutput.isLensStabilizationDuringBracketedCaptureSupported forSegmentAtIndex:1];
+    //    [self.lensStabilizationControl setEnabled:self.photoOutput.isLensStabilizationDuringBracketedCaptureSupported forSegmentAtIndex:1];
     
     //	self.rawControl.enabled = ( self.videoDevice != nil );
     //	self.rawControl.selectedSegmentIndex = 0;
@@ -424,6 +433,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     self.manualHUDPhotoView.hidden = ( control.selectedSegmentIndex == 0 ) ? NO : YES;
     self.manualHUDFocusView.hidden = ( control.selectedSegmentIndex == 1 ) ? NO : YES;
     self.manualHUDExposureView.hidden = ( control.selectedSegmentIndex == 2 ) ? NO : YES;
+    self.manualHUDVideoZoomFactorView.hidden = ( control.selectedSegmentIndex == 3 ) ? NO : YES;
+    
     
     NSLog(@"Selected segment index: %lu", control.selectedSegmentIndex);
     //    self.manualHUDWhiteBalanceView.hidden = ( control.selectedSegmentIndex == 3 ) ? NO : YES;
@@ -936,6 +947,25 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     }
 }
 
+- (IBAction)changeVideoZoomFactor:(UISlider *)sender {
+    if (![self.videoDevice isRampingVideoZoom]) {
+        [self willChangeValueForKey:@"videoZoomFactor"];
+        NSError *error = nil;
+        
+        if ( [self.videoDevice lockForConfiguration:&error] ) {
+            
+            [self.videoDevice setVideoZoomFactor:sender.value];
+            [self.videoDevice unlockForConfiguration];
+        }
+        else {
+            NSLog( @"Could not lock device for configuration: %@", error );
+        }
+        [self didChangeValueForKey:@"videoZoomFactor"];
+        //                        //NSLog(@"Video zoom factor (%lu) value: %f (min: %f\tmax: %f)", property, value, minZoom, maxZoom);
+    }
+    
+}
+
 //- (IBAction)changeWhiteBalanceMode:(id)sender
 //{
 //    UISegmentedControl *control = sender;
@@ -1176,6 +1206,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self addObserver:self forKeyPath:@"videoDevice.ISO" options:NSKeyValueObservingOptionNew context:ISOContext];
     [self addObserver:self forKeyPath:@"videoDevice.exposureTargetBias" options:NSKeyValueObservingOptionNew context:ExposureTargetBiasContext];
     [self addObserver:self forKeyPath:@"videoDevice.exposureTargetOffset" options:NSKeyValueObservingOptionNew context:ExposureTargetOffsetContext];
+    [self addObserver:self forKeyPath:@"videoDevice.videoZoomFactor" options:NSKeyValueObservingOptionNew context:VideoZoomFactorContext];
+    
     //    [self addObserver:self forKeyPath:@"videoDevice.whiteBalanceMode" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:WhiteBalanceModeContext];
     //    [self addObserver:self forKeyPath:@"videoDevice.deviceWhiteBalanceGains" options:NSKeyValueObservingOptionNew context:DeviceWhiteBalanceGainsContext];
     
@@ -1201,6 +1233,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self removeObserver:self forKeyPath:@"videoDevice.ISO" context:ISOContext];
     [self removeObserver:self forKeyPath:@"videoDevice.exposureTargetBias" context:ExposureTargetBiasContext];
     [self removeObserver:self forKeyPath:@"videoDevice.exposureTargetOffset" context:ExposureTargetOffsetContext];
+    [self removeObserver:self forKeyPath:@"videoDevice.videoZoomFactor" context:VideoZoomFactorContext];
+    
     //    [self removeObserver:self forKeyPath:@"videoDevice.whiteBalanceMode" context:WhiteBalanceModeContext];
     //    [self removeObserver:self forKeyPath:@"videoDevice.deviceWhiteBalanceGains" context:DeviceWhiteBalanceGainsContext];
 }
@@ -1330,6 +1364,15 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             dispatch_async( dispatch_get_main_queue(), ^{
                 self.exposureTargetOffsetSlider.value = newExposureTargetOffset;
                 self.exposureTargetOffsetValueLabel.text = [NSString stringWithFormat:@"%.1f", newExposureTargetOffset];
+            } );
+        }
+    }
+    else if ( context == VideoZoomFactorContext) {
+        if ( newValue && newValue != [NSNull null] ) {
+            float newZoomFactor = [newValue floatValue];
+            dispatch_async( dispatch_get_main_queue(), ^{
+                self.videoZoomFactorSlider.value = newZoomFactor;
+                self.videoZoomFactorValueLabel.text = [NSString stringWithFormat:@"%.1f", newZoomFactor];
             } );
         }
     }
