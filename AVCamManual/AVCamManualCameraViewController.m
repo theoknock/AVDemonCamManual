@@ -43,7 +43,8 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 
 @property (nonatomic, weak) IBOutlet AVCamManualPreviewView *previewView;
 //@property (nonatomic, weak) IBOutlet UISegmentedControl *captureModeControl;
-@property (nonatomic, weak) IBOutlet UILabel *cameraUnavailableLabel;
+//@property (nonatomic, weak) IBOutlet UILabel *cameraUnavailableImageView;
+@property (nonatomic, weak) IBOutlet UIImageView * cameraUnavailableImageView;
 @property (nonatomic, weak) IBOutlet UIButton *resumeButton;
 @property (nonatomic, weak) IBOutlet UIButton *recordButton;
 //@property (nonatomic, weak) IBOutlet UIButton *cameraButton;
@@ -51,6 +52,8 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 @property (nonatomic, weak) IBOutlet UIButton *HUDButton;
 
 @property (nonatomic, weak) IBOutlet UIView *manualHUD;
+
+@property (nonatomic, weak) IBOutlet UIView *controlsView;
 
 @property (nonatomic) NSArray *focusModes;
 @property (nonatomic, weak) IBOutlet UIView *manualHUDFocusView;
@@ -79,7 +82,7 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 @property (weak, nonatomic) IBOutlet UILabel *videoZoomFactorValueLabel;
 @property (weak, nonatomic) IBOutlet UISlider *videoZoomFactorSlider;
 
-@property (weak, nonatomic) IBOutlet UIView *manualHUDPhotoView;
+@property (weak, nonatomic) IBOutlet UIView *manualHUDTorchLevelView;
 @property (weak, nonatomic) IBOutlet UISlider *torchLevelSlider;
 
 
@@ -122,6 +125,14 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 
 #pragma mark View Controller Life Cycle
 
+- (void)toggleControlViewVisibility:(NSArray *)views hide:(BOOL)shouldHide
+{
+    [views enumerateObjectsUsingBlock:^(UIView *  _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
+        [view setHidden:shouldHide];
+        [view setAlpha:(shouldHide) ? 0.0 : 1.0];
+    }];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -133,12 +144,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     //	self.captureModeControl.enabled = NO;
     self.HUDButton.enabled = NO;
     
-    self.manualHUD.hidden = YES;
-    self.manualHUDPhotoView.hidden = YES;
-    self.manualHUDFocusView.hidden = YES;
-    self.manualHUDExposureView.hidden = YES;
-    //    self.manualHUDPhotoView.hidden = YES;
-    self.manualHUDLensStabilizationView.hidden = YES;
+    [self toggleControlViewVisibility:self.controlsView.subviews hide:TRUE];
     
     // Create the AVCaptureSession
     self.session = [[AVCaptureSession alloc] init];
@@ -422,22 +428,15 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     self.manualHUD.hidden = ! self.manualHUD.hidden;
 }
 
-
-
 - (IBAction)changeManualHUD:(id)sender
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     UISegmentedControl *control = (UISegmentedControl *)sender;
     
-    self.manualHUDPhotoView.hidden = ( control.selectedSegmentIndex == 0 ) ? NO : YES;
-    self.manualHUDFocusView.hidden = ( control.selectedSegmentIndex == 1 ) ? NO : YES;
-    self.manualHUDExposureView.hidden = ( control.selectedSegmentIndex == 2 ) ? NO : YES;
-    self.manualHUDVideoZoomFactorView.hidden = ( control.selectedSegmentIndex == 3 ) ? NO : YES;
-    
-    
-    NSLog(@"Selected segment index: %lu", control.selectedSegmentIndex);
-    //    self.manualHUDWhiteBalanceView.hidden = ( control.selectedSegmentIndex == 3 ) ? NO : YES;
-    //	self.manualHUDLensStabilizationView.hidden = ( control.selectedSegmentIndex == 4 ) ? NO : YES;
+    [self toggleControlViewVisibility:@[self.manualHUDTorchLevelView]      hide:(control.selectedSegmentIndex == 0) ? NO : YES];
+    [self toggleControlViewVisibility:@[self.manualHUDFocusView]           hide:(control.selectedSegmentIndex == 1) ? NO : YES];
+    [self toggleControlViewVisibility:@[self.manualHUDExposureView]        hide:(control.selectedSegmentIndex == 2) ? NO : YES];
+    [self toggleControlViewVisibility:@[self.manualHUDVideoZoomFactorView] hide:(control.selectedSegmentIndex == 3) ? NO : YES];
 }
 
 - (void)setSlider:(UISlider *)slider highlightColor:(UIColor *)color
@@ -513,6 +512,17 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             [self.videoDevice setExposureMode:AVCaptureExposureModeCustom];
         } @catch (NSException *exception) {
             NSLog(@"Error setting focus mode: %@", error.description);
+        } @finally {
+            [self.videoDevice unlockForConfiguration];
+        }
+        
+        //  Enable low-light boost          
+        __autoreleasing NSError *automaticallyEnablesLowLightBoostWhenAvailableError = nil;
+        [self.videoDevice lockForConfiguration:&automaticallyEnablesLowLightBoostWhenAvailableError];
+        @try {
+            [self.videoDevice setAutomaticallyEnablesLowLightBoostWhenAvailable:TRUE];
+        } @catch (NSException *exception) {
+            NSLog(@"Error enabling automatic low light boost: %@", automaticallyEnablesLowLightBoostWhenAvailableError.description);
         } @finally {
             [self.videoDevice unlockForConfiguration];
         }
@@ -1477,10 +1487,10 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     }
     else if ( reason == AVCaptureSessionInterruptionReasonVideoDeviceNotAvailableWithMultipleForegroundApps ) {
         // Simply fade-in a label to inform the user that the camera is unavailable
-        self.cameraUnavailableLabel.hidden = NO;
-        self.cameraUnavailableLabel.alpha = 0.0;
+        self.cameraUnavailableImageView.hidden = NO;
+        self.cameraUnavailableImageView.alpha = 0.0;
         [UIView animateWithDuration:0.25 animations:^{
-            self.cameraUnavailableLabel.alpha = 1.0;
+            self.cameraUnavailableImageView.alpha = 1.0;
         }];
     }
 }
@@ -1496,11 +1506,11 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             self.resumeButton.hidden = YES;
         }];
     }
-    if ( ! self.cameraUnavailableLabel.hidden ) {
+    if ( ! self.cameraUnavailableImageView.hidden ) {
         [UIView animateWithDuration:0.25 animations:^{
-            self.cameraUnavailableLabel.alpha = 0.0;
+            self.cameraUnavailableImageView.alpha = 0.0;
         } completion:^( BOOL finished ) {
-            self.cameraUnavailableLabel.hidden = YES;
+            self.cameraUnavailableImageView.hidden = YES;
         }];
     }
 }
