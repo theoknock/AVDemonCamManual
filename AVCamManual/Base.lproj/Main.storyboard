@@ -58,12 +58,6 @@
                                     <action selector="toggleHUD:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="NME-ES-lH1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zg3-5q-Tqh" userLabel="Switch Camera Button">
-                                <rect key="frame" x="347.33333333333331" y="803.66666666666663" width="46.666666666666686" height="34.666666666666629"/>
-                                <state key="normal" image="arrow.triangle.2.circlepath.camera" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="32"/>
-                                </state>
-                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwL-zO-1Pw">
                                 <rect key="frame" x="130.66666666666666" y="427.66666666666669" width="152.99999999999997" height="41"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
@@ -305,8 +299,6 @@
                             <constraint firstItem="mcl-en-N2e" firstAttribute="centerX" secondItem="ZHU-fh-dKz" secondAttribute="centerX" id="8bH-qP-Z47"/>
                             <constraint firstItem="BZ1-aS-3u4" firstAttribute="leading" secondItem="9Za-05-zwY" secondAttribute="leadingMargin" id="9p7-vN-x2g"/>
                             <constraint firstItem="amH-FF-rBy" firstAttribute="bottom" secondItem="mcl-en-N2e" secondAttribute="topMargin" id="DQP-3N-ASc"/>
-                            <constraint firstItem="Zg3-5q-Tqh" firstAttribute="centerY" secondItem="mcl-en-N2e" secondAttribute="centerY" id="VZ7-0G-x0a"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Zg3-5q-Tqh" secondAttribute="trailing" id="W9o-Ga-Iqf"/>
                             <constraint firstItem="amH-FF-rBy" firstAttribute="leading" secondItem="9Za-05-zwY" secondAttribute="leadingMargin" id="XDg-Yk-QOi"/>
                             <constraint firstItem="amH-FF-rBy" firstAttribute="top" secondItem="ZHU-fh-dKz" secondAttribute="top" id="XFH-y3-rXX"/>
                             <constraint firstItem="mcl-en-N2e" firstAttribute="bottom" secondItem="ZHU-fh-dKz" secondAttribute="bottom" id="XIk-a9-Cqo"/>
@@ -347,7 +339,6 @@
     </scenes>
     <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
-        <image name="arrow.triangle.2.circlepath.camera" catalog="system" width="128" height="94"/>
         <image name="bolt.circle" catalog="system" width="128" height="121"/>
         <image name="camera.aperture" catalog="system" width="128" height="121"/>
         <image name="camera.metering.multispot" catalog="system" width="128" height="93"/>
