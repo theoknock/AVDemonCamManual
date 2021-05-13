@@ -136,16 +136,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Disable UI until the session starts running
-    //	self.cameraButton.enabled = NO;
-    self.recordButton.enabled = NO;
-    //	self.photoButton.enabled = NO;
-    //	self.captureModeControl.enabled = NO;
-    self.HUDButton.enabled = NO;
-    
-    [self toggleControlViewVisibility:self.controlsView.subviews hide:TRUE];
-    
+  
     // Create the AVCaptureSession
     self.session = [[AVCaptureSession alloc] init];
     
@@ -185,6 +176,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
                 
                 dispatch_async( dispatch_get_main_queue(), ^{
                     self.recordButton.enabled = YES;
+                    self.HUDButton.enabled = YES;
                 } );
             }
             
@@ -316,14 +308,14 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     // Manual focus controls
     self.focusModes = @[@(AVCaptureFocusModeContinuousAutoFocus), @(AVCaptureFocusModeLocked)];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"Setting selected index of focus mode control to 1 (manual)");
-        self.focusModeControl.enabled = ( self.videoDevice != nil );
-        [self.focusModeControl setSelectedSegmentIndex:1];//[self.focusModes indexOfObject:@(self.videoDevice.focusMode)];
-        for ( NSNumber *mode in self.focusModes ) {
-            [self.focusModeControl setEnabled:[self.videoDevice isFocusModeSupported:mode.intValue] forSegmentAtIndex:[self.focusModes indexOfObject:mode]];
-        }
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        NSLog(@"Setting selected index of focus mode control to 1 (manual)");
+//        self.focusModeControl.enabled = ( self.videoDevice != nil );
+//        [self.focusModeControl setSelectedSegmentIndex:@(self.videoDevice.focusMode)];
+////        for ( NSNumber *mode in self.focusModes ) {
+////            [self.focusModeControl setEnabled:[self.videoDevice isFocusModeSupported:mode.intValue] forSegmentAtIndex:[self.focusModes indexOfObject:mode]];
+////        }
+//    });
     
     self.lensPositionSlider.minimumValue = 0.0;
     self.lensPositionSlider.maximumValue = 1.0;
@@ -335,7 +327,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     
     
     self.exposureModeControl.enabled = ( self.videoDevice != nil );
-    self.exposureModeControl.selectedSegmentIndex = 2;//[self.exposureModes indexOfObject:@(self.videoDevice.exposureMode)];
+    self.exposureModeControl.selectedSegmentIndex = 0;//[self.exposureModes indexOfObject:@(self.videoDevice.exposureMode)];
     for ( NSNumber *mode in self.exposureModes ) {
         [self.exposureModeControl setEnabled:[self.videoDevice isExposureModeSupported:mode.intValue] forSegmentAtIndex:[self.exposureModes indexOfObject:mode]];
     }
@@ -489,6 +481,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self.session beginConfiguration];
     
     self.session.sessionPreset = AVCaptureSessionPreset3840x2160;
+    [self.session setAutomaticallyConfiguresCaptureDeviceForWideColor:TRUE];
     
     // Add video input
     AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
@@ -508,8 +501,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         __autoreleasing NSError *error = nil;
         [self.videoDevice lockForConfiguration:&error];
         @try {
-            [self.videoDevice setFocusMode:AVCaptureFocusModeLocked];
-            [self.videoDevice setExposureMode:AVCaptureExposureModeCustom];
+            [self.videoDevice setFocusMode:AVCaptureFocusModeContinuousAutoFocus];
+            [self.videoDevice setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
         } @catch (NSException *exception) {
             NSLog(@"Error setting focus mode: %@", error.description);
         } @finally {
@@ -526,7 +519,6 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         } @finally {
             [self.videoDevice unlockForConfiguration];
         }
-        
         
         dispatch_async( dispatch_get_main_queue(), ^{
             /*
@@ -747,7 +739,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     self.recordButton.enabled = NO;
     //	self.photoButton.enabled = NO;
     //	self.captureModeControl.enabled = NO;
-    self.HUDButton.enabled = NO;
+    //    self.HUDButton.enabled = NO;
     
     dispatch_async( self.sessionQueue, ^{
         AVCaptureDeviceInput *newVideoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:newVideoDevice error:nil];
@@ -863,6 +855,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 {
     UISegmentedControl *control = sender;
     AVCaptureExposureMode mode = (AVCaptureExposureMode)[self.exposureModes[control.selectedSegmentIndex] intValue];
+    self.exposureDurationSlider.enabled = ( mode == AVCaptureExposureModeCustom );
+    self.ISOSlider.enabled = ( mode == AVCaptureExposureModeCustom );
     NSError *error = nil;
     
     if ( [self.videoDevice lockForConfiguration:&error] ) {
@@ -1259,6 +1253,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             dispatch_async( dispatch_get_main_queue(), ^{
                 self.focusModeControl.selectedSegmentIndex = [self.focusModes indexOfObject:@(newMode)];
                 self.lensPositionSlider.enabled = ( newMode == AVCaptureFocusModeLocked );
+                self.lensPositionSlider.selected = ( newMode == AVCaptureFocusModeLocked );
                 
                 if ( oldValue && oldValue != [NSNull null] ) {
                     AVCaptureFocusMode oldMode = [oldValue intValue];
@@ -1312,6 +1307,9 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
                 self.exposureModeControl.selectedSegmentIndex = [self.exposureModes indexOfObject:@(newMode)];
                 self.exposureDurationSlider.enabled = ( newMode == AVCaptureExposureModeCustom );
                 self.ISOSlider.enabled = ( newMode == AVCaptureExposureModeCustom );
+                self.exposureDurationSlider.selected = ( newMode == AVCaptureExposureModeCustom );
+                self.ISOSlider.selected = ( newMode == AVCaptureExposureModeCustom );
+                
                 
                 if ( oldValue && oldValue != [NSNull null] ) {
                     AVCaptureExposureMode oldMode = [oldValue intValue];
@@ -1425,9 +1423,6 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         dispatch_async( dispatch_get_main_queue(), ^{
             //			self.cameraButton.enabled = isRunning && ( self.videoDeviceDiscoverySession.devices.count > 1 );
             self.recordButton.enabled = isRunning;
-            //			self.photoButton.enabled = isRunning;
-            self.HUDButton.enabled = isRunning;
-            //			self.captureModeControl.enabled = isRunning;
         } );
     }
     else {
