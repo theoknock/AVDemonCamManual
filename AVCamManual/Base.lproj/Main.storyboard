@@ -7,6 +7,7 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,28 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcl-en-N2e">
-                                <rect key="frame" x="164.66666666666666" y="780" width="84.666666666666657" height="82"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" image="record.circle" catalog="system">
-                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="72"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="toggleMovieRecording:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="kRM-DR-2H2"/>
-                                </connections>
-                            </button>
-                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="video.slash" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fSz-dY-3y2">
-                                <rect key="frame" x="87" y="384" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </imageView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BZ1-aS-3u4" userLabel="Settings">
                                 <rect key="frame" x="20" y="792" width="33" height="58"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -58,6 +37,37 @@
                                     <action selector="toggleHUD:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="NME-ES-lH1"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcl-en-N2e">
+                                <rect key="frame" x="164.66666666666666" y="780" width="84.666666666666657" height="82"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="record.circle" catalog="system">
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="72"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="toggleMovieRecording:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="kRM-DR-2H2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="-3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8MA-oo-st4" userLabel="Toggle Display Button">
+                                <rect key="frame" x="369.66666666666669" y="807" width="24.333333333333314" height="28.333333333333371"/>
+                                <state key="normal" image="iphone.slash" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleDisplay:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="d47-1k-iPD"/>
+                                </connections>
+                            </button>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="video.slash" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fSz-dY-3y2">
+                                <rect key="frame" x="87" y="384" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </imageView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwL-zO-1Pw">
                                 <rect key="frame" x="130.66666666666666" y="427.66666666666669" width="152.99999999999997" height="41"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
@@ -291,6 +301,26 @@
                                     <constraint firstItem="Akx-Oj-5Sj" firstAttribute="leading" secondItem="543-NV-2bk" secondAttribute="leading" id="y6u-9Z-Afu"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vRU-a6-qp8">
+                                <rect key="frame" x="0.0" y="20" width="414" height="876"/>
+                                <subviews>
+                                    <button opaque="NO" tag="-3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuj-OT-Soh" userLabel="Toggle Cover View Button">
+                                        <rect key="frame" x="183" y="410" width="48" height="56"/>
+                                        <color key="tintColor" systemColor="systemGray5Color"/>
+                                        <state key="normal" image="iphone.slash" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="48"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleCoverView:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="TkP-Wa-NTs"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="wuj-OT-Soh" firstAttribute="centerX" secondItem="vRU-a6-qp8" secondAttribute="centerX" id="mwX-WR-R9Q"/>
+                                    <constraint firstItem="wuj-OT-Soh" firstAttribute="centerY" secondItem="vRU-a6-qp8" secondAttribute="centerY" id="xjv-My-CVB"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZHU-fh-dKz"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -298,13 +328,20 @@
                             <constraint firstItem="gwL-zO-1Pw" firstAttribute="centerY" secondItem="9Za-05-zwY" secondAttribute="centerY" id="0ah-9b-xpC"/>
                             <constraint firstItem="mcl-en-N2e" firstAttribute="centerX" secondItem="ZHU-fh-dKz" secondAttribute="centerX" id="8bH-qP-Z47"/>
                             <constraint firstItem="BZ1-aS-3u4" firstAttribute="leading" secondItem="9Za-05-zwY" secondAttribute="leadingMargin" id="9p7-vN-x2g"/>
+                            <constraint firstAttribute="trailing" secondItem="8MA-oo-st4" secondAttribute="trailing" constant="20" symbolic="YES" id="CdD-TP-6Qq"/>
                             <constraint firstItem="amH-FF-rBy" firstAttribute="bottom" secondItem="mcl-en-N2e" secondAttribute="topMargin" id="DQP-3N-ASc"/>
+                            <constraint firstItem="vRU-a6-qp8" firstAttribute="centerX" secondItem="ZHU-fh-dKz" secondAttribute="centerX" id="F5v-a5-ZUL"/>
+                            <constraint firstItem="vRU-a6-qp8" firstAttribute="top" secondItem="9Za-05-zwY" secondAttribute="top" constant="20" symbolic="YES" id="Ids-gG-hzn"/>
+                            <constraint firstItem="vRU-a6-qp8" firstAttribute="leading" secondItem="9Za-05-zwY" secondAttribute="leading" id="NGp-hv-YaT"/>
+                            <constraint firstAttribute="trailing" secondItem="vRU-a6-qp8" secondAttribute="trailing" id="RmV-0P-Wpf"/>
                             <constraint firstItem="amH-FF-rBy" firstAttribute="leading" secondItem="9Za-05-zwY" secondAttribute="leadingMargin" id="XDg-Yk-QOi"/>
                             <constraint firstItem="amH-FF-rBy" firstAttribute="top" secondItem="ZHU-fh-dKz" secondAttribute="top" id="XFH-y3-rXX"/>
                             <constraint firstItem="mcl-en-N2e" firstAttribute="bottom" secondItem="ZHU-fh-dKz" secondAttribute="bottom" id="XIk-a9-Cqo"/>
                             <constraint firstItem="gwL-zO-1Pw" firstAttribute="centerX" secondItem="ZHU-fh-dKz" secondAttribute="centerX" id="Xpm-3m-FZY"/>
+                            <constraint firstItem="8MA-oo-st4" firstAttribute="centerY" secondItem="mcl-en-N2e" secondAttribute="centerY" id="ghY-SI-Qwa"/>
                             <constraint firstItem="amH-FF-rBy" firstAttribute="trailing" secondItem="9Za-05-zwY" secondAttribute="trailingMargin" id="jOo-o7-lvz"/>
                             <constraint firstItem="BZ1-aS-3u4" firstAttribute="centerY" secondItem="mcl-en-N2e" secondAttribute="centerY" id="npz-3J-2T5"/>
+                            <constraint firstAttribute="bottom" secondItem="vRU-a6-qp8" secondAttribute="bottom" id="wHk-Rs-M77"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -314,6 +351,7 @@
                         <outlet property="ISOValueLabel" destination="1jM-K7-NRY" id="TR6-8b-8cM"/>
                         <outlet property="cameraUnavailableImageView" destination="fSz-dY-3y2" id="ntJ-uX-8d8"/>
                         <outlet property="controlsView" destination="Akx-Oj-5Sj" id="OZY-fQ-eeW"/>
+                        <outlet property="coverView" destination="vRU-a6-qp8" id="ZkZ-Rr-Xal"/>
                         <outlet property="exposureDurationSlider" destination="7R6-CN-WmZ" id="bsY-ft-Wyy"/>
                         <outlet property="exposureDurationValueLabel" destination="zEe-bF-Uts" id="DW3-EF-M8q"/>
                         <outlet property="exposureModeControl" destination="vvO-Ky-Czn" id="pqH-oy-Ju7"/>
@@ -343,6 +381,7 @@
         <image name="camera.aperture" catalog="system" width="128" height="121"/>
         <image name="camera.metering.multispot" catalog="system" width="128" height="93"/>
         <image name="camera.metering.none" catalog="system" width="128" height="93"/>
+        <image name="iphone.slash" catalog="system" width="112" height="128"/>
         <image name="light.max" catalog="system" width="128" height="72"/>
         <image name="light.min" catalog="system" width="128" height="74"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
@@ -352,5 +391,11 @@
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="video.slash" catalog="system" width="128" height="106"/>
         <image name="viewfinder.circle" catalog="system" width="128" height="121"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

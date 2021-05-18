@@ -42,8 +42,6 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 @interface AVCamManualCameraViewController () <AVCaptureFileOutputRecordingDelegate>
 
 @property (nonatomic, weak) IBOutlet AVCamManualPreviewView *previewView;
-//@property (nonatomic, weak) IBOutlet UISegmentedControl *captureModeControl;
-//@property (nonatomic, weak) IBOutlet UILabel *cameraUnavailableImageView;
 @property (nonatomic, weak) IBOutlet UIImageView * cameraUnavailableImageView;
 @property (nonatomic, weak) IBOutlet UIButton *resumeButton;
 @property (nonatomic, weak) IBOutlet UIButton *recordButton;
@@ -84,6 +82,9 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 
 @property (weak, nonatomic) IBOutlet UIView *manualHUDTorchLevelView;
 @property (weak, nonatomic) IBOutlet UISlider *torchLevelSlider;
+
+
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 
 
 //@property (nonatomic) NSArray *whiteBalanceModes;
@@ -131,6 +132,27 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         [view setHidden:shouldHide];
         [view setAlpha:(shouldHide) ? 0.0 : 1.0];
     }];
+}
+
+
+- (IBAction)toggleCoverView:(UIButton *)sender {
+    [self.coverView setHidden:TRUE];
+    [self.coverView setAlpha:0.0];
+}
+
+
+
+- (IBAction)toggleDisplay:(UIButton *)sender {
+    [self.coverView setHidden:FALSE];
+    [self.coverView setAlpha:1.0];
+//    [self.previewView.layer setHidden:!self.previewView.layer.isHidden];
+//    [self.view.subviews enumerateObjectsUsingBlock:^(UIView *  _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
+//        [view setHidden:!view.isHidden];
+//        [view setAlpha:!view.isHidden];
+//    }];
+//
+//    [sender setHidden:FALSE];
+//    [sender setAlpha:FALSE];
 }
 
 - (void)viewDidLoad
