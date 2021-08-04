@@ -28,6 +28,9 @@ static void * ExposureTargetBiasContext = &ExposureTargetBiasContext;
 static void * ExposureTargetOffsetContext = &ExposureTargetOffsetContext;
 static void * VideoZoomFactorContext = &VideoZoomFactorContext;
 
+static void * DeviceWhiteBalanceGainsContext = &DeviceWhiteBalanceGainsContext;
+static void * WhiteBalanceModeContext = &WhiteBalanceModeContext;
+
 typedef NS_ENUM( NSInteger, AVCamManualSetupResult ) {
     AVCamManualSetupResultSuccess,
     AVCamManualSetupResultCameraNotAuthorized,
@@ -84,18 +87,13 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 @property (weak, nonatomic) IBOutlet UISlider *torchLevelSlider;
 
 
+@property (nonatomic) NSArray *whiteBalanceModes;
+@property (weak, nonatomic) IBOutlet UIView *manualHUDWhiteBalanceView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *whiteBalanceModeControl;
+@property (weak, nonatomic) IBOutlet UISlider *temperatureSlider;
+@property (weak, nonatomic) IBOutlet UISlider *tintSlider;
+
 @property (weak, nonatomic) IBOutlet UIView *coverView;
-
-
-//@property (nonatomic) NSArray *whiteBalanceModes;
-//@property (nonatomic, weak) IBOutlet UIView *manualHUDWhiteBalanceView;
-//@property (nonatomic, weak) IBOutlet UISegmentedControl *whiteBalanceModeControl;
-//@property (nonatomic, weak) IBOutlet UISlider *temperatureSlider;
-//@property (nonatomic, weak) IBOutlet UILabel *temperatureNameLabel;
-//@property (nonatomic, weak) IBOutlet UILabel *temperatureValueLabel;
-//@property (nonatomic, weak) IBOutlet UISlider *tintSlider;
-//@property (nonatomic, weak) IBOutlet UILabel *tintNameLabel;
-//@property (nonatomic, weak) IBOutlet UILabel *tintValueLabel;
 
 @property (nonatomic, weak) IBOutlet UIView *manualHUDLensStabilizationView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *lensStabilizationControl;
@@ -145,20 +143,20 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 - (IBAction)toggleDisplay:(UIButton *)sender {
     [self.coverView setHidden:FALSE];
     [self.coverView setAlpha:1.0];
-//    [self.previewView.layer setHidden:!self.previewView.layer.isHidden];
-//    [self.view.subviews enumerateObjectsUsingBlock:^(UIView *  _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
-//        [view setHidden:!view.isHidden];
-//        [view setAlpha:!view.isHidden];
-//    }];
-//
-//    [sender setHidden:FALSE];
-//    [sender setAlpha:FALSE];
+    //    [self.previewView.layer setHidden:!self.previewView.layer.isHidden];
+    //    [self.view.subviews enumerateObjectsUsingBlock:^(UIView *  _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
+    //        [view setHidden:!view.isHidden];
+    //        [view setAlpha:!view.isHidden];
+    //    }];
+    //
+    //    [sender setHidden:FALSE];
+    //    [sender setAlpha:FALSE];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-  
+    
     // Create the AVCaptureSession
     self.session = [[AVCaptureSession alloc] init];
     
@@ -330,14 +328,14 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     // Manual focus controls
     self.focusModes = @[@(AVCaptureFocusModeContinuousAutoFocus), @(AVCaptureFocusModeLocked)];
     
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        NSLog(@"Setting selected index of focus mode control to 1 (manual)");
-//        self.focusModeControl.enabled = ( self.videoDevice != nil );
-//        [self.focusModeControl setSelectedSegmentIndex:@(self.videoDevice.focusMode)];
-////        for ( NSNumber *mode in self.focusModes ) {
-////            [self.focusModeControl setEnabled:[self.videoDevice isFocusModeSupported:mode.intValue] forSegmentAtIndex:[self.focusModes indexOfObject:mode]];
-////        }
-//    });
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    //        NSLog(@"Setting selected index of focus mode control to 1 (manual)");
+    //        self.focusModeControl.enabled = ( self.videoDevice != nil );
+    //        [self.focusModeControl setSelectedSegmentIndex:@(self.videoDevice.focusMode)];
+    ////        for ( NSNumber *mode in self.focusModes ) {
+    ////            [self.focusModeControl setEnabled:[self.videoDevice isFocusModeSupported:mode.intValue] forSegmentAtIndex:[self.focusModes indexOfObject:mode]];
+    ////        }
+    //    });
     
     self.lensPositionSlider.minimumValue = 0.0;
     self.lensPositionSlider.maximumValue = 1.0;
@@ -391,33 +389,26 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     // To-Do: Restore these for "color-contrasting" overwhite/overblack subject areas (where luminosity contrasting fails)
     
     // Manual white balance controls
-    //    self.whiteBalanceModes = @[/**@(/*AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance), */@(AVCaptureWhiteBalanceModeLocked)];
-    //
-    //    self.whiteBalanceModeControl.enabled = (self.videoDevice != nil);
-    //    self.whiteBalanceModeControl.selectedSegmentIndex = 1.0; //[self.whiteBalanceModes indexOfObject:@(self.videoDevice.whiteBalanceMode)];
-    //    for ( NSNumber *mode in self.whiteBalanceModes ) {
-    //        [self.whiteBalanceModeControl setEnabled:[self.videoDevice isWhiteBalanceModeSupported:mode.intValue] forSegmentAtIndex:[self.whiteBalanceModes indexOfObject:mode]];
-    //    }
-    //
-    //    AVCaptureWhiteBalanceGains whiteBalanceGains = self.videoDevice.deviceWhiteBalanceGains;
-    ////    AVCaptureWhiteBalance/TemperatureAndTintValues whiteBalanceTemperatureAndTint = [self.videoDevice temperatureAndTintValuesForDeviceWhiteBalanceGains:whiteBalanceGains];
-    //
-    //    self.temperatureSlider.minimumValue = 3000;
-    //    self.temperatureSlider.maximumValue = self.videoDevice.maxWhiteBalanceGain; //8000;
-    //    self.temperatureSlider.value = 3000;//whiteBalanceTemperatureAndTint.temperature;
-    //    self.temperatureSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
-    //
-    //    self.tintSlider.minimumValue = -150;
-    //    self.tintSlider.maximumValue = 150;
-    //    self.tintSlider.value = -150; //whiteBalanceTemperatureAndTint.tint;
-    //    self.tintSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
+    self.whiteBalanceModes = @[@(AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance), @(AVCaptureWhiteBalanceModeLocked)];
     
-    self.lensStabilizationControl.enabled = ( self.videoDevice != nil );
-    self.lensStabilizationControl.selectedSegmentIndex = 0;
-    //    [self.lensStabilizationControl setEnabled:self.photoOutput.isLensStabilizationDuringBracketedCaptureSupported forSegmentAtIndex:1];
+    self.whiteBalanceModeControl.enabled = (self.videoDevice != nil);
+    self.whiteBalanceModeControl.selectedSegmentIndex = [self.whiteBalanceModes indexOfObject:@(self.videoDevice.whiteBalanceMode)];
+    for ( NSNumber *mode in self.whiteBalanceModes ) {
+        [self.whiteBalanceModeControl setEnabled:[self.videoDevice isWhiteBalanceModeSupported:mode.intValue] forSegmentAtIndex:[self.whiteBalanceModes indexOfObject:mode]];
+    }
     
-    //	self.rawControl.enabled = ( self.videoDevice != nil );
-    //	self.rawControl.selectedSegmentIndex = 0;
+    AVCaptureWhiteBalanceGains whiteBalanceGains = self.videoDevice.deviceWhiteBalanceGains;
+    AVCaptureWhiteBalanceTemperatureAndTintValues whiteBalanceTemperatureAndTint = [self.videoDevice temperatureAndTintValuesForDeviceWhiteBalanceGains:whiteBalanceGains];
+    
+    self.temperatureSlider.minimumValue = 3000;
+    self.temperatureSlider.maximumValue = 8000; //self.videoDevice.maxWhiteBalanceGain;
+    self.temperatureSlider.value = whiteBalanceTemperatureAndTint.temperature;
+    self.temperatureSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
+    
+    self.tintSlider.minimumValue = -150;
+    self.tintSlider.maximumValue = 150;
+    self.tintSlider.value = whiteBalanceTemperatureAndTint.tint;
+    self.tintSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
 }
 
 //- (IBAction)toggleTorch:(id)sender
@@ -451,6 +442,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self toggleControlViewVisibility:@[self.manualHUDFocusView]           hide:(control.selectedSegmentIndex == 1) ? NO : YES];
     [self toggleControlViewVisibility:@[self.manualHUDExposureView]        hide:(control.selectedSegmentIndex == 2) ? NO : YES];
     [self toggleControlViewVisibility:@[self.manualHUDVideoZoomFactorView] hide:(control.selectedSegmentIndex == 3) ? NO : YES];
+    [self toggleControlViewVisibility:@[self.manualHUDWhiteBalanceView] hide:(control.selectedSegmentIndex == 4) ? NO : YES];
 }
 
 - (void)setSlider:(UISlider *)slider highlightColor:(UIColor *)color
@@ -469,12 +461,12 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     else if ( slider == self.exposureTargetBiasSlider ) {
         self.exposureTargetBiasNameLabel.textColor = self.exposureTargetBiasValueLabel.textColor = slider.tintColor;
     }
-    //    else if ( slider == self.temperatureSlider ) {
-    //        self.temperatureNameLabel.textColor = self.temperatureValueLabel.textColor = slider.tintColor;
-    //    }
-    //    else if ( slider == self.tintSlider ) {
-    //        self.tintNameLabel.textColor = self.tintValueLabel.textColor = slider.tintColor;
-    //    }
+    else if ( slider == self.temperatureSlider ) {
+//        self.temperatureNameLabel.textColor = self.temperatureValueLabel.textColor = slider.tintColor;
+    }
+    else if ( slider == self.tintSlider ) {
+//        self.tintNameLabel.textColor = self.tintValueLabel.textColor = slider.tintColor;
+    }
 }
 
 - (IBAction)sliderTouchBegan:(id)sender
@@ -531,7 +523,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             [self.videoDevice unlockForConfiguration];
         }
         
-        //  Enable low-light boost          
+        //  Enable low-light boost
         __autoreleasing NSError *automaticallyEnablesLowLightBoostWhenAvailableError = nil;
         [self.videoDevice lockForConfiguration:&automaticallyEnablesLowLightBoostWhenAvailableError];
         @try {
@@ -543,16 +535,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         }
         
         dispatch_async( dispatch_get_main_queue(), ^{
-            /*
-             Why are we dispatching this to the main queue?
-             Because AVCaptureVideoPreviewLayer is the backing layer for AVCamManualPreviewView and UIView
-             can only be manipulated on the main thread.
-             Note: As an exception to the above rule, it is not necessary to serialize video orientation changes
-             on the AVCaptureVideoPreviewLayer’s connection with other session manipulation.
-             
-             Use the status bar orientation as the initial video orientation. Subsequent orientation changes are
-             handled by -[AVCamManualCameraViewController viewWillTransitionToSize:withTransitionCoordinator:].
-             */
+  
             UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
             AVCaptureVideoOrientation initialVideoOrientation = AVCaptureVideoOrientationPortrait;
             if ( statusBarOrientation != UIInterfaceOrientationUnknown ) {
@@ -991,122 +974,80 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     
 }
 
-//- (IBAction)changeWhiteBalanceMode:(id)sender
-//{
-//    UISegmentedControl *control = sender;
-//    AVCaptureWhiteBalanceMode mode = (AVCaptureWhiteBalanceMode)[self.whiteBalanceModes[control.selectedSegmentIndex] intValue];
-//    NSError *error = nil;
-//
-//    if ( [self.videoDevice lockForConfiguration:&error] ) {
-//        if ( [self.videoDevice isWhiteBalanceModeSupported:mode] ) {
-//            self.videoDevice.whiteBalanceMode = mode;
-//        }
-//        else {
-//            NSLog( @"White balance mode %@ is not supported. White balance mode is %@.", [self stringFromWhiteBalanceMode:mode], [self stringFromWhiteBalanceMode:self.videoDevice.whiteBalanceMode] );
-//            self.whiteBalanceModeControl.selectedSegmentIndex = [self.whiteBalanceModes indexOfObject:@(self.videoDevice.whiteBalanceMode)];
-//        }
-//        [self.videoDevice unlockForConfiguration];
-//    }
-//    else {
-//        NSLog( @"Could not lock device for configuration: %@", error );
-//    }
-//}
-//
-//- (void)setWhiteBalanceGains:(AVCaptureWhiteBalanceGains)gains
-//{
-//    NSError *error = nil;
-//
-//    if ( [self.videoDevice lockForConfiguration:&error] ) {
-//        AVCaptureWhiteBalanceGains normalizedGains = [self normalizedGains:gains]; // Conversion can yield out-of-bound values, cap to limits
-//        [self.videoDevice setWhiteBalanceModeLockedWithDeviceWhiteBalanceGains:normalizedGains completionHandler:nil];
-//        [self.videoDevice unlockForConfiguration];
-//    }
-//    else {
-//        NSLog( @"Could not lock device for configuration: %@", error );
-//    }
-//}
-//
-//- (IBAction)changeTemperature:(id)sender
-//{
-//    AVCaptureWhiteBalanceTemperatureAndTintValues temperatureAndTint = {
-//        .temperature = self.temperatureSlider.value,
-//        .tint = self.tintSlider.value,
-//    };
-//
-////    [self setWhiteBalanceGains:[self.videoDevice deviceWhiteBalanceGainsForTemperatureAndTintValues:temperatureAndTint]];
-//}
-//
-//- (IBAction)changeTint:(id)sender
-//{
-//    AVCaptureWhiteBalanceTemperatureAndTintValues temperatureAndTint = {
-//        .temperature = self.temperatureSlider.value,
-//        .tint = self.tintSlider.value,
-//    };
-//
-////    [self setWhiteBalanceGains:[self.videoDevice deviceWhiteBalanceGainsForTemperatureAndTintValues:temperatureAndTint]];
-//}
-//
-//- (IBAction)lockWithGrayWorld:(id)sender
-//{
-//    [self setWhiteBalanceGains:self.videoDevice.grayWorldDeviceWhiteBalanceGains];
-//}
+- (IBAction)changeWhiteBalanceMode:(id)sender
+{
+    UISegmentedControl *control = sender;
+    AVCaptureWhiteBalanceMode mode = (AVCaptureWhiteBalanceMode)[self.whiteBalanceModes[control.selectedSegmentIndex] intValue];
+    NSError *error = nil;
+    
+    if ( [self.videoDevice lockForConfiguration:&error] ) {
+        if ( [self.videoDevice isWhiteBalanceModeSupported:mode] ) {
+            self.videoDevice.whiteBalanceMode = mode;
+        }
+        else {
+            NSLog( @"White balance mode %@ is not supported. White balance mode is %@.", [self stringFromWhiteBalanceMode:mode], [self stringFromWhiteBalanceMode:self.videoDevice.whiteBalanceMode] );
+            self.whiteBalanceModeControl.selectedSegmentIndex = [self.whiteBalanceModes indexOfObject:@(self.videoDevice.whiteBalanceMode)];
+        }
+        [self.videoDevice unlockForConfiguration];
+    }
+    else {
+        NSLog( @"Could not lock device for configuration: %@", error );
+    }
+}
 
-//- (AVCaptureWhiteBalanceGains)normalizedGains:(AVCaptureWhiteBalanceGains)gains
-//{
-//    AVCaptureWhiteBalanceGains g = gains;
-//
-//    g.redGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
-//    g.greenGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
-//    g.blueGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
-//
-////    g.redGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.redGain );
-////    g.greenGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.greenGain );
-////    g.blueGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.blueGain );
-//
-//    return g;
-//}
+- (void)setWhiteBalanceGains:(AVCaptureWhiteBalanceGains)gains
+{
+    NSError *error = nil;
+    
+    if ( [self.videoDevice lockForConfiguration:&error] ) {
+        AVCaptureWhiteBalanceGains normalizedGains = [self normalizedGains:gains]; // Conversion can yield out-of-bound values, cap to limits
+        [self.videoDevice setWhiteBalanceModeLockedWithDeviceWhiteBalanceGains:normalizedGains completionHandler:nil];
+        [self.videoDevice unlockForConfiguration];
+    }
+    else {
+        NSLog( @"Could not lock device for configuration: %@", error );
+    }
+}
 
-#pragma mark Capturing Photos
+- (IBAction)changeTemperature:(id)sender
+{
+    AVCaptureWhiteBalanceTemperatureAndTintValues temperatureAndTint = {
+        .temperature = self.temperatureSlider.value,
+        .tint = self.tintSlider.value,
+    };
+    
+    [self setWhiteBalanceGains:[self.videoDevice deviceWhiteBalanceGainsForTemperatureAndTintValues:temperatureAndTint]];
+}
 
-//- (IBAction)capturePhoto:(id)sender
-//{
-//	// Retrieve the video preview layer's video orientation on the main queue before entering the session queue
-//	// We do this to ensure UI elements are accessed on the main thread and session configuration is done on the session queue
-//	AVCaptureVideoPreviewLayer *previewLayer = (AVCaptureVideoPreviewLayer *)self.previewView.layer;
-//	AVCaptureVideoOrientation videoPreviewLayerVideoOrientation = previewLayer.connection.videoOrientation;
-//
-//	AVCapturePhotoSettings *settings = [self currentPhotoSettings];
-//	dispatch_async( self.sessionQueue, ^{
-//
-//		// Update the orientation on the photo output video connection before capturing
-//		AVCaptureConnection *photoOutputConnection = [self.photoOutput connectionWithMediaType:AVMediaTypeVideo];
-//		photoOutputConnection.videoOrientation = videoPreviewLayerVideoOrientation;
-//
-//		// Use a separate object for the photo capture delegate to isolate each capture life cycle.
-//		AVCamManualPhotoCaptureDelegate *photoCaptureDelegate = [[AVCamManualPhotoCaptureDelegate alloc] initWithRequestedPhotoSettings:settings willCapturePhotoAnimation:^{
-//			// Perform a shutter animation.
-//			dispatch_async( dispatch_get_main_queue(), ^{
-//				self.previewView.layer.opacity = 0.0;
-//				[UIView animateWithDuration:0.25 animations:^{
-//					self.previewView.layer.opacity = 1.0;
-//				}];
-//			} );
-//		} completed:^( AVCamManualPhotoCaptureDelegate *photoCaptureDelegate ) {
-//			// When the capture is complete, remove a reference to the photo capture delegate so it can be deallocated.
-//			dispatch_async( self.sessionQueue, ^{
-//				self.inProgressPhotoCaptureDelegates[@(photoCaptureDelegate.requestedPhotoSettings.uniqueID)] = nil;
-//			} );
-//		}];
-//
-//		/*
-//			The Photo Output keeps a weak reference to the photo capture delegate so
-//			we store it in an array to maintain a strong reference to this object
-//			until the capture is completed.
-//		*/
-//		self.inProgressPhotoCaptureDelegates[@(photoCaptureDelegate.requestedPhotoSettings.uniqueID)] = photoCaptureDelegate;
-//		[self.photoOutput capturePhotoWithSettings:settings delegate:photoCaptureDelegate];
-//	} );
-//}
+- (IBAction)changeTint:(id)sender
+{
+    AVCaptureWhiteBalanceTemperatureAndTintValues temperatureAndTint = {
+        .temperature = self.temperatureSlider.value,
+        .tint = self.tintSlider.value,
+    };
+    
+    [self setWhiteBalanceGains:[self.videoDevice deviceWhiteBalanceGainsForTemperatureAndTintValues:temperatureAndTint]];
+}
+
+- (IBAction)lockWithGrayWorld:(id)sender
+{
+    [self setWhiteBalanceGains:self.videoDevice.grayWorldDeviceWhiteBalanceGains];
+}
+
+- (AVCaptureWhiteBalanceGains)normalizedGains:(AVCaptureWhiteBalanceGains)gains
+{
+    AVCaptureWhiteBalanceGains g = gains;
+    
+    g.redGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
+    g.greenGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
+    g.blueGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
+    
+    //    g.redGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.redGain );
+    //    g.greenGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.greenGain );
+    //    g.blueGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.blueGain );
+    
+    return g;
+}
 
 #pragma mark Recording Movies
 
@@ -1233,8 +1174,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self addObserver:self forKeyPath:@"videoDevice.exposureTargetOffset" options:NSKeyValueObservingOptionNew context:ExposureTargetOffsetContext];
     [self addObserver:self forKeyPath:@"videoDevice.videoZoomFactor" options:NSKeyValueObservingOptionNew context:VideoZoomFactorContext];
     
-    //    [self addObserver:self forKeyPath:@"videoDevice.whiteBalanceMode" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:WhiteBalanceModeContext];
-    //    [self addObserver:self forKeyPath:@"videoDevice.deviceWhiteBalanceGains" options:NSKeyValueObservingOptionNew context:DeviceWhiteBalanceGainsContext];
+    [self addObserver:self forKeyPath:@"videoDevice.whiteBalanceMode" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:WhiteBalanceModeContext];
+    [self addObserver:self forKeyPath:@"videoDevice.deviceWhiteBalanceGains" options:NSKeyValueObservingOptionNew context:DeviceWhiteBalanceGainsContext];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.videoDevice];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionRuntimeError:) name:AVCaptureSessionRuntimeErrorNotification object:self.session];
@@ -1260,8 +1201,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self removeObserver:self forKeyPath:@"videoDevice.exposureTargetOffset" context:ExposureTargetOffsetContext];
     [self removeObserver:self forKeyPath:@"videoDevice.videoZoomFactor" context:VideoZoomFactorContext];
     
-    //    [self removeObserver:self forKeyPath:@"videoDevice.whiteBalanceMode" context:WhiteBalanceModeContext];
-    //    [self removeObserver:self forKeyPath:@"videoDevice.deviceWhiteBalanceGains" context:DeviceWhiteBalanceGainsContext];
+    [self removeObserver:self forKeyPath:@"videoDevice.whiteBalanceMode" context:WhiteBalanceModeContext];
+    [self removeObserver:self forKeyPath:@"videoDevice.deviceWhiteBalanceGains" context:DeviceWhiteBalanceGainsContext];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -1305,13 +1246,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             AVCaptureExposureMode newMode = [newValue intValue];
             if ( oldValue && oldValue != [NSNull null] ) {
                 AVCaptureExposureMode oldMode = [oldValue intValue];
-                /*
-                 It’s important to understand the relationship between exposureDuration and the minimum frame rate as represented by activeVideoMaxFrameDuration.
-                 In manual mode, if exposureDuration is set to a value that's greater than activeVideoMaxFrameDuration, then activeVideoMaxFrameDuration will
-                 increase to match it, thus lowering the minimum frame rate. If exposureMode is then changed to automatic mode, the minimum frame rate will
-                 remain lower than its default. If this is not the desired behavior, the min and max frameRates can be reset to their default values for the
-                 current activeFormat by setting activeVideoMaxFrameDuration and activeVideoMinFrameDuration to kCMTimeInvalid.
-                 */
+                
                 if ( oldMode != newMode && oldMode == AVCaptureExposureModeCustom ) {
                     NSError *error = nil;
                     if ( [self.videoDevice lockForConfiguration:&error] ) {
@@ -1405,38 +1340,38 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             } );
         }
     }
-    //    else if ( context == WhiteBalanceModeContext ) {
-    //        if ( newValue && newValue != [NSNull null] ) {
-    //            AVCaptureWhiteBalanceMode newMode = [newValue intValue];
-    //            dispatch_async( dispatch_get_main_queue(), ^{
-    //                self.whiteBalanceModeControl.selectedSegmentIndex = [self.whiteBalanceModes indexOfObject:@(newMode)];
-    //                self.temperatureSlider.enabled = ( newMode == AVCaptureWhiteBalanceModeLocked );
-    //                self.tintSlider.enabled = ( newMode == AVCaptureWhiteBalanceModeLocked );
-    //
-    //                if ( oldValue && oldValue != [NSNull null] ) {
-    //                    AVCaptureWhiteBalanceMode oldMode = [oldValue intValue];
-    //                    NSLog( @"white balance mode: %@ -> %@", [self stringFromWhiteBalanceMode:oldMode], [self stringFromWhiteBalanceMode:newMode] );
-    //                }
-    //            } );
-    //        }
-    //    }
-    //    else if ( context == DeviceWhiteBalanceGainsContext ) {
-    //        if ( newValue && newValue != [NSNull null] ) {
-    //            AVCaptureWhiteBalanceGains newGains;
-    //            [newValue getValue:&newGains];
-    ////            AVCaptureWhiteBalanceTemperatureAndTintValues newTemperatureAndTint = [self.videoDevice temperatureAndTintValuesForDeviceWhiteBalanceGains:newGains];
-    //            AVCaptureWhiteBalanceMode whiteBalanceMode = self.videoDevice.whiteBalanceMode;
-    //            dispatch_async( dispatch_get_main_queue(), ^{
-    //                if ( whiteBalanceMode != AVCaptureExposureModeLocked ) {
-    ////                    self.temperatureSlider.value = newTemperatureAndTint.temperature;
-    ////                    self.tintSlider.value = newTemperatureAndTint.tint;
-    //                }
-    //
-    ////                self.temperatureValueLabel.text = [NSString stringWithFormat:@"%i", (int)newTemperatureAndTint.temperature];
-    ////                self.tintValueLabel.text = [NSString stringWithFormat:@"%i", (int)newTemperatureAndTint.tint];
-    //            } );
-    //        }
-    //    }
+    else if ( context == WhiteBalanceModeContext ) {
+        if ( newValue && newValue != [NSNull null] ) {
+            AVCaptureWhiteBalanceMode newMode = [newValue intValue];
+            dispatch_async( dispatch_get_main_queue(), ^{
+                self.whiteBalanceModeControl.selectedSegmentIndex = [self.whiteBalanceModes indexOfObject:@(newMode)];
+                self.temperatureSlider.enabled = ( newMode == AVCaptureWhiteBalanceModeLocked );
+                self.tintSlider.enabled = ( newMode == AVCaptureWhiteBalanceModeLocked );
+                
+                if ( oldValue && oldValue != [NSNull null] ) {
+                    AVCaptureWhiteBalanceMode oldMode = [oldValue intValue];
+                    NSLog( @"white balance mode: %@ -> %@", [self stringFromWhiteBalanceMode:oldMode], [self stringFromWhiteBalanceMode:newMode] );
+                }
+            } );
+        }
+    }
+    else if ( context == DeviceWhiteBalanceGainsContext ) {
+        if ( newValue && newValue != [NSNull null] ) {
+            AVCaptureWhiteBalanceGains newGains;
+            [newValue getValue:&newGains];
+            AVCaptureWhiteBalanceTemperatureAndTintValues newTemperatureAndTint = [self.videoDevice temperatureAndTintValuesForDeviceWhiteBalanceGains:newGains];
+            AVCaptureWhiteBalanceMode whiteBalanceMode = self.videoDevice.whiteBalanceMode;
+            dispatch_async( dispatch_get_main_queue(), ^{
+                if ( whiteBalanceMode != AVCaptureExposureModeLocked ) {
+                    self.temperatureSlider.value = newTemperatureAndTint.temperature;
+                    self.tintSlider.value = newTemperatureAndTint.tint;
+                }
+                
+                //                self.temperatureValueLabel.text = [NSString stringWithFormat:@"%i", (int)newTemperatureAndTint.temperature];
+                //                self.tintValueLabel.text = [NSString stringWithFormat:@"%i", (int)newTemperatureAndTint.tint];
+            } );
+        }
+    }
     else if ( context == SessionRunningContext ) {
         BOOL isRunning = NO;
         if ( newValue && newValue != [NSNull null] ) {
@@ -1484,12 +1419,6 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 
 - (void)sessionWasInterrupted:(NSNotification *)notification
 {
-    // In some scenarios we want to enable the user to restart the capture session.
-    // For example, if music playback is initiated via Control Center while using AVCamManual,
-    // then the user can let AVCamManual resume the session running, which will stop music playback.
-    // Note that stopping music playback in Control Center will not automatically resume the session.
-    // Also note that it is not always possible to resume, see -[resumeInterruptedSession:].
-    // In iOS 9 and later, the notification's userInfo dictionary contains information about why the session was interrupted
     AVCaptureSessionInterruptionReason reason = [notification.userInfo[AVCaptureSessionInterruptionReasonKey] integerValue];
     NSLog( @"Capture session was interrupted with reason %ld", (long)reason );
     
@@ -1571,21 +1500,21 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     return string;
 }
 
-//- (NSString *)stringFromWhiteBalanceMode:(AVCaptureWhiteBalanceMode)whiteBalanceMode
-//{
-//    NSString *string = @"INVALID WHITE BALANCE MODE";
-//
-//    if ( whiteBalanceMode == AVCaptureWhiteBalanceModeLocked ) {
-//        string = @"Locked";
-//    }
-//    else if ( whiteBalanceMode == AVCaptureWhiteBalanceModeAutoWhiteBalance ) {
-//        string = @"Auto";
-//    }
-//    else if ( whiteBalanceMode == AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance ) {
-//        string = @"ContinuousAuto";
-//    }
-//
-//    return string;
-//}
+- (NSString *)stringFromWhiteBalanceMode:(AVCaptureWhiteBalanceMode)whiteBalanceMode
+{
+    NSString *string = @"INVALID WHITE BALANCE MODE";
+    
+    if ( whiteBalanceMode == AVCaptureWhiteBalanceModeLocked ) {
+        string = @"Locked";
+    }
+    else if ( whiteBalanceMode == AVCaptureWhiteBalanceModeAutoWhiteBalance ) {
+        string = @"Auto";
+    }
+    else if ( whiteBalanceMode == AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance ) {
+        string = @"ContinuousAuto";
+    }
+    
+    return string;
+}
 
 @end
