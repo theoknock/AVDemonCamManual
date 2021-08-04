@@ -566,22 +566,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         NSLog( @"Could not add audio device input to the session" );
     }
     
-    // Add photo output
-    //	AVCapturePhotoOutput *photoOutput = [[AVCapturePhotoOutput alloc] init];
-    //	if ( [self.session canAddOutput:photoOutput] ) {
-    //		[self.session addOutput:photoOutput];
-    //		self.photoOutput = photoOutput;
-    //		self.photoOutput.highResolutionCaptureEnabled = YES;
-    //
-    //		self.inProgressPhotoCaptureDelegates = [NSMutableDictionary dictionary];
-    //	}
-    //	else {
-    //		NSLog( @"Could not add photo output to the session" );
-    //		self.setupResult = AVCamManualSetupResultSessionConfigurationFailed;
-    //		[self.session commitConfiguration];
-    //		return;
-    //	}
-    
+ 
     // We will not create an AVCaptureMovieFileOutput when configuring the session because the AVCaptureMovieFileOutput does not support movie recording with AVCaptureSessionPresetPhoto
     self.backgroundRecordingID = UIBackgroundTaskInvalid;
     
@@ -592,68 +577,9 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     } );
 }
 
-// Should be called on the main queue
-//- (AVCapturePhotoSettings *)currentPhotoSettings
-//{
-//	BOOL lensStabilizationEnabled = self.lensStabilizationControl.selectedSegmentIndex == 1;
-//	BOOL rawEnabled = self.rawControl.selectedSegmentIndex == 1;
-//	AVCapturePhotoSettings *photoSettings = nil;
-//
-//	if ( lensStabilizationEnabled && self.photoOutput.isLensStabilizationDuringBracketedCaptureSupported ) {
-//		NSArray *bracketedSettings = nil;
-//		if ( self.videoDevice.exposureMode == AVCaptureExposureModeCustom ) {
-//			bracketedSettings = @[[AVCaptureManualExposureBracketedStillImageSettings manualExposureSettingsWithExposureDuration:AVCaptureExposureDurationCurrent ISO:AVCaptureISOCurrent]];
-//		}
-//		else {
-//			bracketedSettings = @[[AVCaptureAutoExposureBracketedStillImageSettings autoExposureSettingsWithExposureTargetBias:AVCaptureExposureTargetBiasCurrent]];
-//		}
-//
-//		if ( rawEnabled && self.photoOutput.availableRawPhotoPixelFormatTypes.count ) {
-//            photoSettings = [AVCapturePhotoBracketSettings photoBracketSettingsWithRawPixelFormatType:(OSType)(((NSNumber *)self.photoOutput.availableRawPhotoPixelFormatTypes[0]).unsignedLongValue) processedFormat:nil bracketedSettings:bracketedSettings];
-//		}
-//		else {
-//            photoSettings = [AVCapturePhotoBracketSettings photoBracketSettingsWithRawPixelFormatType:0 processedFormat:@{ AVVideoCodecKey : AVVideoCodecTypeJPEG } bracketedSettings:bracketedSettings];
-//		}
-//
-//		((AVCapturePhotoBracketSettings *)photoSettings).lensStabilizationEnabled = YES;
-//	}
-//	else {
-//		if ( rawEnabled && self.photoOutput.availableRawPhotoPixelFormatTypes.count > 0 ) {
-//			photoSettings = [AVCapturePhotoSettings photoSettingsWithRawPixelFormatType:(OSType)(((NSNumber *)self.photoOutput.availableRawPhotoPixelFormatTypes[0]).unsignedLongValue) processedFormat:@{ AVVideoCodecKey : AVVideoCodecJPEG }];
-//		}
-//		else {
-//			photoSettings = [AVCapturePhotoSettings photoSettings];
-//		}
-//
-//		// We choose not to use flash when doing manual exposure
-//		if ( self.videoDevice.exposureMode == AVCaptureExposureModeCustom ) {
-//			photoSettings.flashMode = AVCaptureFlashModeOff;
-//		}
-//		else {
-//			photoSettings.flashMode = [self.photoOutput.supportedFlashModes containsObject:@(AVCaptureFlashModeAuto)] ? AVCaptureFlashModeAuto : AVCaptureFlashModeOff;
-//		}
-//	}
-//
-//	if ( photoSettings.availablePreviewPhotoPixelFormatTypes.count > 0 ) {
-//		photoSettings.previewPhotoFormat = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : photoSettings.availablePreviewPhotoPixelFormatTypes[0] }; // The first format in the array is the preferred format
-//	}
-//
-//	if ( self.videoDevice.exposureMode == AVCaptureExposureModeCustom ) {
-//		photoSettings.autoStillImageStabilizationEnabled = NO;
-//	}
-//
-//	photoSettings.highResolutionPhotoEnabled = YES;
-//
-//	return photoSettings;
-//}
-
 - (IBAction)resumeInterruptedSession:(id)sender
 {
     dispatch_async( self.sessionQueue, ^{
-        // The session might fail to start running, e.g. if a phone or FaceTime call is still using audio or video.
-        // A failure to start the session will be communicated via a session runtime error notification.
-        // To avoid repeatedly failing to start the session running, we only try to restart the session in the
-        // session runtime error handler if we aren't trying to resume the session running.
         [self.session startRunning];
         self.sessionRunning = self.session.isRunning;
         if ( ! self.session.isRunning ) {
@@ -829,9 +755,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         
         NSError *error = nil;
         if ( [device lockForConfiguration:&error] ) {
-            // Setting (focus/exposure)PointOfInterest alone does not initiate a (focus/exposure) operation
-            // Call -set(Focus/Exposure)Mode: to apply the new point of interest
-            if ( focusMode != AVCaptureFocusModeLocked && device.isFocusPointOfInterestSupported && [device isFocusModeSupported:focusMode] ) {
+        if ( focusMode != AVCaptureFocusModeLocked && device.isFocusPointOfInterestSupported && [device isFocusModeSupported:focusMode] ) {
                 device.focusPointOfInterest = point;
                 device.focusMode = focusMode;
             }
@@ -968,8 +892,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         else {
             NSLog( @"Could not lock device for configuration: %@", error );
         }
-        [self didChangeValueForKey:@"videoZoomFactor"];
-        //                        //NSLog(@"Video zoom factor (%lu) value: %f (min: %f\tmax: %f)", property, value, minZoom, maxZoom);
+        [self didChangeValueForKey:@"videoZoomFactor"]; //NSLog(@"Video zoom factor (%lu) value: %f (min: %f\tmax: %f)", property, value, minZoom, maxZoom);
     }
     
 }
@@ -1038,16 +961,31 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 {
     AVCaptureWhiteBalanceGains g = gains;
     
-    g.redGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
-    g.greenGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
-    g.blueGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
+    g.redGain = MAX( 1.0, g.redGain );
+    g.greenGain = MAX( 1.0, g.greenGain );
+    g.blueGain = MAX( 1.0, g.blueGain );
     
-    //    g.redGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.redGain );
-    //    g.greenGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.greenGain );
-    //    g.blueGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.blueGain );
+    g.redGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.redGain );
+    g.greenGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.greenGain );
+    g.blueGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.blueGain );
     
     return g;
 }
+
+//- (AVCaptureWhiteBalanceGains)normalizedGains:(AVCaptureWhiteBalanceGains)gains
+//{
+//    AVCaptureWhiteBalanceGains g = gains;
+//
+//    g.redGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
+//    g.greenGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
+//    g.blueGain = MIN( 1.0, self.videoDevice.maxWhiteBalanceGain );
+//
+//        g.redGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.redGain );
+//        g.greenGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.greenGain );
+//        g.blueGain = MIN( self.videoDevice.maxWhiteBalanceGain, g.blueGain );
+//
+//    return g;
+//}
 
 #pragma mark Recording Movies
 
