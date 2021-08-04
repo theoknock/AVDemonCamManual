@@ -104,7 +104,6 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 @property (nonatomic) AVCaptureDeviceInput *videoDeviceInput;
 @property (nonatomic) AVCaptureDeviceDiscoverySession *videoDeviceDiscoverySession;
 @property (nonatomic) AVCaptureDevice *videoDevice;
-@property (nonatomic) AVCaptureMovieFileOutput *movieFileOutput;
 //@property (nonatomic) AVCapturePhotoOutput *photoOutput;
 
 //@property (nonatomic) NSMutableDictionary<NSNumber *, AVCamManualPhotoCaptureDelegate *> *inProgressPhotoCaptureDelegates;
@@ -157,29 +156,21 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 {
     [super viewDidLoad];
     
-    // Create the AVCaptureSession
     self.session = [[AVCaptureSession alloc] init];
     
-    // Create a device discovery session
-    // TO-DO: Pick one only
     NSArray<NSString *> *deviceTypes = @[AVCaptureDeviceTypeBuiltInWideAngleCamera, AVCaptureDeviceTypeBuiltInDualCamera, AVCaptureDeviceTypeBuiltInTelephotoCamera];
     self.videoDeviceDiscoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:deviceTypes mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
     
-    // Set up the preview view
     self.previewView.session = self.session;
     
-    // Communicate with the session and other session objects on this queue
     self.sessionQueue = dispatch_queue_create( "session queue", DISPATCH_QUEUE_SERIAL );
     
     self.setupResult = AVCamManualSetupResultSuccess;
     
-    // Check video authorization status. Video access is required and audio access is optional.
-    // If audio access is denied, audio is not recorded during movie recording.
     switch ( [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] )
     {
         case AVAuthorizationStatusAuthorized:
         {
-            // The user has previously granted access to the camera
             AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
             
             if ( [self.session canAddOutput:movieFileOutput] ) {
@@ -198,15 +189,14 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
                     self.recordButton.enabled = YES;
                     self.HUDButton.enabled = YES;
                 } );
+                
+                
             }
             
             break;
         }
         case AVAuthorizationStatusNotDetermined:
         {
-            // The user has not yet been presented with the option to grant video access.
-            // We suspend the session queue to delay session running until the access request has completed.
-            // Note that audio access will be implicitly requested when we create an AVCaptureDeviceInput for audio during session setup.
             dispatch_suspend( self.sessionQueue );
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^( BOOL granted ) {
                 if ( ! granted ) {
@@ -462,10 +452,10 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         self.exposureTargetBiasNameLabel.textColor = self.exposureTargetBiasValueLabel.textColor = slider.tintColor;
     }
     else if ( slider == self.temperatureSlider ) {
-//        self.temperatureNameLabel.textColor = self.temperatureValueLabel.textColor = slider.tintColor;
+        //        self.temperatureNameLabel.textColor = self.temperatureValueLabel.textColor = slider.tintColor;
     }
     else if ( slider == self.tintSlider ) {
-//        self.tintNameLabel.textColor = self.tintValueLabel.textColor = slider.tintColor;
+        //        self.tintNameLabel.textColor = self.tintValueLabel.textColor = slider.tintColor;
     }
 }
 
@@ -535,7 +525,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         }
         
         dispatch_async( dispatch_get_main_queue(), ^{
-  
+            
             UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
             AVCaptureVideoOrientation initialVideoOrientation = AVCaptureVideoOrientationPortrait;
             if ( statusBarOrientation != UIInterfaceOrientationUnknown ) {
@@ -566,7 +556,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         NSLog( @"Could not add audio device input to the session" );
     }
     
- 
+    
     // We will not create an AVCaptureMovieFileOutput when configuring the session because the AVCaptureMovieFileOutput does not support movie recording with AVCaptureSessionPresetPhoto
     self.backgroundRecordingID = UIBackgroundTaskInvalid;
     
@@ -755,7 +745,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         
         NSError *error = nil;
         if ( [device lockForConfiguration:&error] ) {
-        if ( focusMode != AVCaptureFocusModeLocked && device.isFocusPointOfInterestSupported && [device isFocusModeSupported:focusMode] ) {
+            if ( focusMode != AVCaptureFocusModeLocked && device.isFocusPointOfInterestSupported && [device isFocusModeSupported:focusMode] ) {
                 device.focusPointOfInterest = point;
                 device.focusMode = focusMode;
             }

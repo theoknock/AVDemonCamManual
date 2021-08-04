@@ -24,7 +24,7 @@
 		7A49F5A71B38C02B003D7AF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A49F5B51B38C094003D7AF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		7A49F5B71B38C0B6003D7AF5 /* AVCamManualAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamManualAppDelegate.h; sourceTree = "<group>"; };
-		7A49F5B81B38C0B6003D7AF5 /* AVCamManualAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamManualAppDelegate.m; sourceTree = "<group>"; };
+		7A49F5B81B38C0B6003D7AF5 /* AVCamManualAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamManualAppDelegate.m; sourceTree = "<group>"; wrapsLines = 0; };
 		7A49F5B91B38C0B6003D7AF5 /* AVCamManualCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamManualCameraViewController.h; sourceTree = "<group>"; };
 		7A49F5BA1B38C0B6003D7AF5 /* AVCamManualCameraViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = AVCamManualCameraViewController.m; sourceTree = "<group>"; wrapsLines = 0; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7A49F5BB1B38C0B6003D7AF5 /* AVCamManualPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamManualPreviewView.h; sourceTree = "<group>"; };
