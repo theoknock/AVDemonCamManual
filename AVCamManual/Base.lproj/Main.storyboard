@@ -19,50 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BZ1-aS-3u4" userLabel="Settings">
-                                <rect key="frame" x="8.0000000000000036" y="792" width="55.333333333333343" height="58"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="48"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <imageReference key="image" image="slider.horizontal.3" catalog="system" symbolScale="large"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="32" scale="large" weight="semibold"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="toggleHUD:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="NME-ES-lH1"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcl-en-N2e">
-                                <rect key="frame" x="164.66666666666666" y="780" width="84.666666666666657" height="82"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" image="record.circle" catalog="system">
-                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="72"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="toggleMovieRecording:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="kRM-DR-2H2"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="-3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8MA-oo-st4" userLabel="Toggle Display Button">
-                                <rect key="frame" x="365.66666666666669" y="797.66666666666663" width="40.333333333333314" height="47"/>
-                                <state key="normal" image="iphone.slash" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="40"/>
-                                </state>
-                                <connections>
-                                    <action selector="toggleDisplay:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="d47-1k-iPD"/>
-                                </connections>
-                            </button>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="video.slash" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fSz-dY-3y2">
                                 <rect key="frame" x="87" y="384" width="240" height="128.33333333333326"/>
                                 <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -153,8 +109,8 @@
                                                 <constraints>
                                                     <constraint firstItem="TV0-Z0-OUU" firstAttribute="top" secondItem="ktg-mg-Ejd" secondAttribute="bottom" constant="8" symbolic="YES" id="Icr-BM-EpY"/>
                                                     <constraint firstItem="ktg-mg-Ejd" firstAttribute="width" secondItem="MDr-ZD-uoq" secondAttribute="width" id="Ohr-RV-UKw"/>
-                                                    <constraint firstItem="TV0-Z0-OUU" firstAttribute="width" secondItem="ktg-mg-Ejd" secondAttribute="width" id="RI1-0E-3Ks"/>
                                                     <constraint firstItem="TV0-Z0-OUU" firstAttribute="leading" secondItem="ktg-mg-Ejd" secondAttribute="leading" id="gCu-cl-Vzn"/>
+                                                    <constraint firstItem="TV0-Z0-OUU" firstAttribute="trailing" secondItem="ktg-mg-Ejd" secondAttribute="trailing" id="gko-lZ-h8j"/>
                                                     <constraint firstItem="ktg-mg-Ejd" firstAttribute="leading" secondItem="MDr-ZD-uoq" secondAttribute="leading" id="kjC-fa-Qfk"/>
                                                     <constraint firstItem="ktg-mg-Ejd" firstAttribute="trailing" secondItem="MDr-ZD-uoq" secondAttribute="trailing" id="vfw-Mn-fwE"/>
                                                 </constraints>
@@ -285,29 +241,29 @@
                                                             <action selector="changeWhiteBalanceMode:" destination="zFy-Vn-e8f" eventType="valueChanged" id="Men-d7-LUF"/>
                                                         </connections>
                                                     </segmentedControl>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" minimumValueImage="magnifyingglass" catalog="system" maximumValueImage="plus.magnifyingglass" translatesAutoresizingMaskIntoConstraints="NO" id="qUk-Am-L5k" userLabel="Temperature Slider">
-                                                        <rect key="frame" x="-2" y="47" width="378" height="270"/>
+                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5Y-v1-MKt">
+                                                        <rect key="frame" x="-2" y="47" width="378" height="31"/>
                                                         <connections>
-                                                            <action selector="changeTemperature:" destination="zFy-Vn-e8f" eventType="valueChanged" id="MEp-1X-yj5"/>
-                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchDown" id="Qt8-j8-vdV"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpOutside" id="fm8-Go-5NV"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="itE-8U-cID"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="jnc-J5-ARv"/>
+                                                            <action selector="changeTemperature:" destination="zFy-Vn-e8f" eventType="valueChanged" id="WCB-V6-W6N"/>
+                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchDown" id="gWY-kl-KYy"/>
+                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="PlO-vZ-dD4"/>
+                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpOutside" id="i4B-nh-i0d"/>
+                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="lnm-A1-teY"/>
                                                         </connections>
                                                     </slider>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" minimumValueImage="magnifyingglass" catalog="system" maximumValueImage="plus.magnifyingglass" id="m14-R2-mzH" userLabel="Tint Slider">
-                                                        <rect key="frame" x="6" y="324" width="362" height="65"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="c2O-fC-f8E">
+                                                        <rect key="frame" x="-2" y="77" width="378" height="31"/>
                                                         <connections>
-                                                            <action selector="changeTint:" destination="zFy-Vn-e8f" eventType="valueChanged" id="rro-PX-WNh"/>
-                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchDown" id="XW2-1W-Wtd"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="EjE-dx-9M9"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="eJ3-0W-bhY"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpOutside" id="vSG-Qe-Me5"/>
+                                                            <action selector="changeTint:" destination="zFy-Vn-e8f" eventType="valueChanged" id="Cua-i3-F3g"/>
+                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchUpOutside" id="LvA-7A-hse"/>
+                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchDown" id="hcZ-jY-84E"/>
+                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="2ga-Za-1Il"/>
+                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="nQY-lY-pLD"/>
                                                         </connections>
                                                     </slider>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C1m-P8-lsU">
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C1m-P8-lsU">
                                                         <rect key="frame" x="0.0" y="388" width="374" height="31"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title="Gray"/>
                                                         <connections>
@@ -318,18 +274,11 @@
                                                 <viewLayoutGuide key="safeArea" id="DAg-SH-izQ"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="C1m-P8-lsU" firstAttribute="top" secondItem="m14-R2-mzH" secondAttribute="bottom" id="1sC-kk-Grb"/>
                                                     <constraint firstItem="Pez-TP-eVs" firstAttribute="leading" secondItem="DAg-SH-izQ" secondAttribute="leading" id="5Mf-xJ-g5x"/>
-                                                    <constraint firstItem="qUk-Am-L5k" firstAttribute="trailing" secondItem="DAg-SH-izQ" secondAttribute="trailing" id="5Ur-Ph-M95"/>
-                                                    <constraint firstItem="qUk-Am-L5k" firstAttribute="centerX" secondItem="Pez-TP-eVs" secondAttribute="centerX" id="DX4-87-QmK"/>
-                                                    <constraint firstItem="m14-R2-mzH" firstAttribute="leading" secondItem="Pez-TP-eVs" secondAttribute="leading" id="FMv-M8-kb9"/>
                                                     <constraint firstItem="Pez-TP-eVs" firstAttribute="centerX" secondItem="DAg-SH-izQ" secondAttribute="centerX" id="Hsq-sn-XNq"/>
+                                                    <constraint firstItem="c2O-fC-f8E" firstAttribute="top" secondItem="g5Y-v1-MKt" secondAttribute="bottom" id="MtM-wN-eUD"/>
                                                     <constraint firstItem="Pez-TP-eVs" firstAttribute="trailing" secondItem="DAg-SH-izQ" secondAttribute="trailing" id="TKd-k3-ff5"/>
-                                                    <constraint firstItem="C1m-P8-lsU" firstAttribute="trailing" secondItem="DAg-SH-izQ" secondAttribute="trailing" id="Tuh-ir-evi"/>
-                                                    <constraint firstItem="qUk-Am-L5k" firstAttribute="top" secondItem="Pez-TP-eVs" secondAttribute="bottom" constant="8" id="W47-WX-eJV"/>
-                                                    <constraint firstItem="m14-R2-mzH" firstAttribute="top" secondItem="qUk-Am-L5k" secondAttribute="bottom" constant="8" id="msK-io-k0b"/>
-                                                    <constraint firstItem="C1m-P8-lsU" firstAttribute="leading" secondItem="Pez-TP-eVs" secondAttribute="leading" id="sB6-sA-IbT"/>
-                                                    <constraint firstItem="C1m-P8-lsU" firstAttribute="centerY" secondItem="puZ-nU-nwq" secondAttribute="centerY" id="ub6-2O-421"/>
+                                                    <constraint firstItem="g5Y-v1-MKt" firstAttribute="top" secondItem="Pez-TP-eVs" secondAttribute="bottom" constant="8" id="wfS-z5-nQo"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -346,18 +295,22 @@
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="C7k-9b-hco"/>
                                             <constraint firstItem="MDr-ZD-uoq" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="DZY-gs-oFQ"/>
                                             <constraint firstItem="puZ-nU-nwq" firstAttribute="trailing" secondItem="tCR-0s-Q5n" secondAttribute="trailing" id="Do2-4i-Idx"/>
+                                            <constraint firstItem="c2O-fC-f8E" firstAttribute="centerX" secondItem="Akx-Oj-5Sj" secondAttribute="centerX" id="EZx-S3-1d3"/>
                                             <constraint firstItem="puZ-nU-nwq" firstAttribute="top" secondItem="tCR-0s-Q5n" secondAttribute="top" id="FkJ-uD-qw0"/>
                                             <constraint firstItem="tCR-0s-Q5n" firstAttribute="bottom" secondItem="iQT-Nx-cHE" secondAttribute="bottom" id="K1G-P8-r9f"/>
+                                            <constraint firstItem="g5Y-v1-MKt" firstAttribute="width" secondItem="Akx-Oj-5Sj" secondAttribute="width" id="MlC-MG-8Va"/>
                                             <constraint firstItem="puZ-nU-nwq" firstAttribute="bottom" secondItem="tCR-0s-Q5n" secondAttribute="bottom" id="NFb-fr-5MS"/>
                                             <constraint firstAttribute="bottom" secondItem="XXb-cy-BED" secondAttribute="bottom" id="ZCu-kt-9DJ"/>
                                             <constraint firstItem="MDr-ZD-uoq" firstAttribute="bottom" secondItem="iQT-Nx-cHE" secondAttribute="bottom" id="c8c-63-fjd"/>
                                             <constraint firstItem="tCR-0s-Q5n" firstAttribute="leading" secondItem="Akx-Oj-5Sj" secondAttribute="leading" id="dEb-ii-jde"/>
                                             <constraint firstAttribute="trailing" secondItem="iQT-Nx-cHE" secondAttribute="trailing" id="eRH-Rc-sna"/>
                                             <constraint firstItem="MDr-ZD-uoq" firstAttribute="leading" secondItem="Akx-Oj-5Sj" secondAttribute="leading" id="f4W-2J-6k3"/>
+                                            <constraint firstItem="c2O-fC-f8E" firstAttribute="width" secondItem="Akx-Oj-5Sj" secondAttribute="width" id="ilC-Dq-Mhq"/>
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="leading" secondItem="Akx-Oj-5Sj" secondAttribute="leading" id="klD-9H-u7v"/>
                                             <constraint firstAttribute="bottom" secondItem="MDr-ZD-uoq" secondAttribute="bottom" id="nBh-FU-has"/>
                                             <constraint firstItem="iQT-Nx-cHE" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" constant="-82" id="nnI-Yi-BRZ"/>
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="bottom" secondItem="iQT-Nx-cHE" secondAttribute="bottom" id="pjW-9C-jv9"/>
+                                            <constraint firstItem="g5Y-v1-MKt" firstAttribute="centerX" secondItem="Akx-Oj-5Sj" secondAttribute="centerX" id="q0z-rv-y7B"/>
                                             <constraint firstItem="iQT-Nx-cHE" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="rYn-YP-ah5"/>
                                             <constraint firstAttribute="bottom" secondItem="tCR-0s-Q5n" secondAttribute="bottom" id="tpq-Ow-jgu"/>
                                             <constraint firstAttribute="trailing" secondItem="tCR-0s-Q5n" secondAttribute="trailing" id="xj2-8b-p7C"/>
@@ -388,6 +341,50 @@
                                     <constraint firstItem="Pez-TP-eVs" firstAttribute="width" secondItem="543-NV-2bk" secondAttribute="width" id="yDE-KP-V6M"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcl-en-N2e">
+                                <rect key="frame" x="164.66666666666666" y="780" width="84.666666666666657" height="82"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="record.circle" catalog="system">
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="72"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="toggleMovieRecording:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="kRM-DR-2H2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BZ1-aS-3u4" userLabel="Settings">
+                                <rect key="frame" x="8.0000000000000036" y="792" width="55.333333333333343" height="58"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="48"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="slider.horizontal.3" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="32" scale="large" weight="semibold"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="toggleHUD:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="NME-ES-lH1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="-3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8MA-oo-st4" userLabel="Toggle Display Button">
+                                <rect key="frame" x="365.66666666666669" y="797.66666666666663" width="40.333333333333314" height="47"/>
+                                <state key="normal" image="iphone.slash" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="40"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleDisplay:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="d47-1k-iPD"/>
+                                </connections>
+                            </button>
                             <view hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vRU-a6-qp8">
                                 <rect key="frame" x="0.0" y="20" width="414" height="876"/>
                                 <subviews>
@@ -431,6 +428,7 @@
                             <constraint firstItem="8MA-oo-st4" firstAttribute="trailing" secondItem="ZHU-fh-dKz" secondAttribute="trailing" constant="-8" id="oah-Kx-27x"/>
                             <constraint firstItem="fSz-dY-3y2" firstAttribute="centerY" secondItem="gwL-zO-1Pw" secondAttribute="centerY" id="pNA-23-46p"/>
                             <constraint firstItem="fSz-dY-3y2" firstAttribute="top" secondItem="ZHU-fh-dKz" secondAttribute="top" constant="339.66666666666669" id="uMW-Xf-vLf"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="amH-FF-rBy" secondAttribute="bottom" constant="-20" id="vyh-88-hfg"/>
                             <constraint firstItem="vRU-a6-qp8" firstAttribute="bottom" secondItem="9Za-05-zwY" secondAttribute="bottom" id="wHk-Rs-M77"/>
                         </constraints>
                     </view>
@@ -456,8 +454,8 @@
                         <outlet property="previewView" destination="9Za-05-zwY" id="llM-aG-xvt"/>
                         <outlet property="recordButton" destination="mcl-en-N2e" id="i4O-yh-h1k"/>
                         <outlet property="resumeButton" destination="gwL-zO-1Pw" id="xvg-vj-GpD"/>
-                        <outlet property="temperatureSlider" destination="qUk-Am-L5k" id="w2b-8x-cIO"/>
-                        <outlet property="tintSlider" destination="m14-R2-mzH" id="TTS-Y7-pKI"/>
+                        <outlet property="temperatureSlider" destination="g5Y-v1-MKt" id="J3z-6X-KUy"/>
+                        <outlet property="tintSlider" destination="c2O-fC-f8E" id="QEP-ar-9vn"/>
                         <outlet property="torchLevelSlider" destination="VNK-3C-FPF" id="7oX-rV-aOe"/>
                         <outlet property="videoZoomFactorSlider" destination="uyM-gg-aDC" id="Wqr-vq-IB7"/>
                         <outlet property="whiteBalanceModeControl" destination="Pez-TP-eVs" id="qVt-2c-tPz"/>
