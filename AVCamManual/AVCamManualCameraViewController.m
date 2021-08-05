@@ -438,7 +438,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 
 - (void)setSlider:(UISlider *)slider highlightColor:(UIColor *)color
 {
-    slider.tintColor = color;
+    if (slider.tag != -1)
+        slider.tintColor = color;
     
     if ( slider == self.lensPositionSlider ) {
         self.lensPositionNameLabel.textColor = self.lensPositionValueLabel.textColor = slider.tintColor;

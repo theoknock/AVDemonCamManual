@@ -247,7 +247,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="99A-Kp-R1y">
                                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="91"/>
                                                                 <subviews>
-                                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5Y-v1-MKt">
+                                                                    <slider opaque="NO" tag="-1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5Y-v1-MKt">
                                                                         <rect key="frame" x="-2" y="0.0" width="378" height="31"/>
                                                                         <imageReference key="minimumValueImage" image="b.circle" catalog="system"/>
                                                                         <imageReference key="maximumValueImage" image="r.circle" catalog="system"/>
@@ -261,7 +261,7 @@
                                                                             <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="lnm-A1-teY"/>
                                                                         </connections>
                                                                     </slider>
-                                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="c2O-fC-f8E">
+                                                                    <slider opaque="NO" tag="-1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="c2O-fC-f8E">
                                                                         <rect key="frame" x="-2" y="30" width="378" height="31"/>
                                                                         <imageReference key="minimumValueImage" image="g.circle" catalog="system"/>
                                                                         <imageReference key="maximumValueImage" image="p.circle" catalog="system"/>
