@@ -826,6 +826,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
                 [self->_videoDevice setTorchModeOnWithLevel:sender.value error:&error];
             else
                 [self->_videoDevice setTorchMode:AVCaptureTorchModeOff];
+        } else {
+            NSLog(@"Unable to adjust torch level; thermal state: %lu", [[NSProcessInfo processInfo] thermalState]);
         }
     } @catch (NSException *exception) {
         NSLog(@"AVCaptureDevice lockForConfiguration returned error\t%@", exception);

@@ -241,26 +241,43 @@
                                                             <action selector="changeWhiteBalanceMode:" destination="zFy-Vn-e8f" eventType="valueChanged" id="Men-d7-LUF"/>
                                                         </connections>
                                                     </segmentedControl>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5Y-v1-MKt">
-                                                        <rect key="frame" x="-2" y="47" width="378" height="31"/>
-                                                        <connections>
-                                                            <action selector="changeTemperature:" destination="zFy-Vn-e8f" eventType="valueChanged" id="WCB-V6-W6N"/>
-                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchDown" id="gWY-kl-KYy"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="PlO-vZ-dD4"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpOutside" id="i4B-nh-i0d"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="lnm-A1-teY"/>
-                                                        </connections>
-                                                    </slider>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="c2O-fC-f8E">
-                                                        <rect key="frame" x="-2" y="77" width="378" height="31"/>
-                                                        <connections>
-                                                            <action selector="changeTint:" destination="zFy-Vn-e8f" eventType="valueChanged" id="Cua-i3-F3g"/>
-                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchUpOutside" id="LvA-7A-hse"/>
-                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchDown" id="hcZ-jY-84E"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="2ga-Za-1Il"/>
-                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="nQY-lY-pLD"/>
-                                                        </connections>
-                                                    </slider>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXV-kY-9j4" userLabel="White Balance Controls Stack View">
+                                                        <rect key="frame" x="0.0" y="47" width="374" height="60"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="99A-Kp-R1y">
+                                                                <rect key="frame" x="0.0" y="0.0" width="374" height="60"/>
+                                                                <subviews>
+                                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5Y-v1-MKt">
+                                                                        <rect key="frame" x="-2" y="0.0" width="378" height="31"/>
+                                                                        <imageReference key="minimumValueImage" image="b.circle" catalog="system"/>
+                                                                        <imageReference key="maximumValueImage" image="r.circle" catalog="system"/>
+                                                                        <color key="minimumTrackTintColor" systemColor="systemBlueColor"/>
+                                                                        <color key="maximumTrackTintColor" systemColor="systemRedColor"/>
+                                                                        <connections>
+                                                                            <action selector="changeTemperature:" destination="zFy-Vn-e8f" eventType="valueChanged" id="WCB-V6-W6N"/>
+                                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchDown" id="gWY-kl-KYy"/>
+                                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="PlO-vZ-dD4"/>
+                                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpOutside" id="i4B-nh-i0d"/>
+                                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="lnm-A1-teY"/>
+                                                                        </connections>
+                                                                    </slider>
+                                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" maximumValueImage="p.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="c2O-fC-f8E">
+                                                                        <rect key="frame" x="-2" y="30" width="378" height="31"/>
+                                                                        <imageReference key="minimumValueImage" image="g.circle" catalog="system"/>
+                                                                        <color key="minimumTrackTintColor" systemColor="systemGreenColor"/>
+                                                                        <color key="maximumTrackTintColor" systemColor="systemPinkColor"/>
+                                                                        <connections>
+                                                                            <action selector="changeTint:" destination="zFy-Vn-e8f" eventType="valueChanged" id="Cua-i3-F3g"/>
+                                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchUpOutside" id="LvA-7A-hse"/>
+                                                                            <action selector="sliderTouchBegan:" destination="zFy-Vn-e8f" eventType="touchDown" id="hcZ-jY-84E"/>
+                                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="2ga-Za-1Il"/>
+                                                                            <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="nQY-lY-pLD"/>
+                                                                        </connections>
+                                                                    </slider>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                    </stackView>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C1m-P8-lsU">
                                                         <rect key="frame" x="0.0" y="388" width="374" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -276,9 +293,7 @@
                                                 <constraints>
                                                     <constraint firstItem="Pez-TP-eVs" firstAttribute="leading" secondItem="DAg-SH-izQ" secondAttribute="leading" id="5Mf-xJ-g5x"/>
                                                     <constraint firstItem="Pez-TP-eVs" firstAttribute="centerX" secondItem="DAg-SH-izQ" secondAttribute="centerX" id="Hsq-sn-XNq"/>
-                                                    <constraint firstItem="c2O-fC-f8E" firstAttribute="top" secondItem="g5Y-v1-MKt" secondAttribute="bottom" id="MtM-wN-eUD"/>
                                                     <constraint firstItem="Pez-TP-eVs" firstAttribute="trailing" secondItem="DAg-SH-izQ" secondAttribute="trailing" id="TKd-k3-ff5"/>
-                                                    <constraint firstItem="g5Y-v1-MKt" firstAttribute="top" secondItem="Pez-TP-eVs" secondAttribute="bottom" constant="8" id="wfS-z5-nQo"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -295,24 +310,25 @@
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="C7k-9b-hco"/>
                                             <constraint firstItem="MDr-ZD-uoq" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="DZY-gs-oFQ"/>
                                             <constraint firstItem="puZ-nU-nwq" firstAttribute="trailing" secondItem="tCR-0s-Q5n" secondAttribute="trailing" id="Do2-4i-Idx"/>
-                                            <constraint firstItem="c2O-fC-f8E" firstAttribute="centerX" secondItem="Akx-Oj-5Sj" secondAttribute="centerX" id="EZx-S3-1d3"/>
+                                            <constraint firstItem="cXV-kY-9j4" firstAttribute="leading" secondItem="Akx-Oj-5Sj" secondAttribute="leading" id="FW1-PL-apD"/>
                                             <constraint firstItem="puZ-nU-nwq" firstAttribute="top" secondItem="tCR-0s-Q5n" secondAttribute="top" id="FkJ-uD-qw0"/>
+                                            <constraint firstAttribute="trailing" secondItem="cXV-kY-9j4" secondAttribute="trailing" id="G7x-JS-329"/>
                                             <constraint firstItem="tCR-0s-Q5n" firstAttribute="bottom" secondItem="iQT-Nx-cHE" secondAttribute="bottom" id="K1G-P8-r9f"/>
-                                            <constraint firstItem="g5Y-v1-MKt" firstAttribute="width" secondItem="Akx-Oj-5Sj" secondAttribute="width" id="MlC-MG-8Va"/>
                                             <constraint firstItem="puZ-nU-nwq" firstAttribute="bottom" secondItem="tCR-0s-Q5n" secondAttribute="bottom" id="NFb-fr-5MS"/>
+                                            <constraint firstItem="cXV-kY-9j4" firstAttribute="top" secondItem="Pez-TP-eVs" secondAttribute="bottom" constant="8" id="VIF-1u-qhg"/>
                                             <constraint firstAttribute="bottom" secondItem="XXb-cy-BED" secondAttribute="bottom" id="ZCu-kt-9DJ"/>
                                             <constraint firstItem="MDr-ZD-uoq" firstAttribute="bottom" secondItem="iQT-Nx-cHE" secondAttribute="bottom" id="c8c-63-fjd"/>
                                             <constraint firstItem="tCR-0s-Q5n" firstAttribute="leading" secondItem="Akx-Oj-5Sj" secondAttribute="leading" id="dEb-ii-jde"/>
                                             <constraint firstAttribute="trailing" secondItem="iQT-Nx-cHE" secondAttribute="trailing" id="eRH-Rc-sna"/>
                                             <constraint firstItem="MDr-ZD-uoq" firstAttribute="leading" secondItem="Akx-Oj-5Sj" secondAttribute="leading" id="f4W-2J-6k3"/>
-                                            <constraint firstItem="c2O-fC-f8E" firstAttribute="width" secondItem="Akx-Oj-5Sj" secondAttribute="width" id="ilC-Dq-Mhq"/>
+                                            <constraint firstItem="cXV-kY-9j4" firstAttribute="width" secondItem="Akx-Oj-5Sj" secondAttribute="width" id="ieQ-JM-dJy"/>
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="leading" secondItem="Akx-Oj-5Sj" secondAttribute="leading" id="klD-9H-u7v"/>
                                             <constraint firstAttribute="bottom" secondItem="MDr-ZD-uoq" secondAttribute="bottom" id="nBh-FU-has"/>
                                             <constraint firstItem="iQT-Nx-cHE" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" constant="-82" id="nnI-Yi-BRZ"/>
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="bottom" secondItem="iQT-Nx-cHE" secondAttribute="bottom" id="pjW-9C-jv9"/>
-                                            <constraint firstItem="g5Y-v1-MKt" firstAttribute="centerX" secondItem="Akx-Oj-5Sj" secondAttribute="centerX" id="q0z-rv-y7B"/>
                                             <constraint firstItem="iQT-Nx-cHE" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="rYn-YP-ah5"/>
                                             <constraint firstAttribute="bottom" secondItem="tCR-0s-Q5n" secondAttribute="bottom" id="tpq-Ow-jgu"/>
+                                            <constraint firstItem="cXV-kY-9j4" firstAttribute="centerX" secondItem="Akx-Oj-5Sj" secondAttribute="centerX" id="wIq-a4-p9J"/>
                                             <constraint firstAttribute="trailing" secondItem="tCR-0s-Q5n" secondAttribute="trailing" id="xj2-8b-p7C"/>
                                             <constraint firstAttribute="trailing" secondItem="XXb-cy-BED" secondAttribute="trailing" id="zLm-Ap-Bjs"/>
                                         </constraints>
@@ -469,16 +485,20 @@
     </scenes>
     <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
+        <image name="b.circle" catalog="system" width="128" height="121"/>
         <image name="bolt.circle" catalog="system" width="128" height="121"/>
         <image name="camera.aperture" catalog="system" width="128" height="121"/>
         <image name="camera.metering.multispot" catalog="system" width="128" height="93"/>
         <image name="camera.metering.none" catalog="system" width="128" height="93"/>
+        <image name="g.circle" catalog="system" width="128" height="121"/>
         <image name="iphone.slash" catalog="system" width="112" height="128"/>
         <image name="light.max" catalog="system" width="128" height="72"/>
         <image name="light.min" catalog="system" width="128" height="75"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="magnifyingglass.circle" catalog="system" width="128" height="121"/>
+        <image name="p.circle" catalog="system" width="128" height="121"/>
         <image name="plus.magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="r.circle" catalog="system" width="128" height="121"/>
         <image name="record.circle" catalog="system" width="128" height="121"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="video.slash" catalog="system" width="128" height="106"/>
@@ -486,8 +506,20 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
