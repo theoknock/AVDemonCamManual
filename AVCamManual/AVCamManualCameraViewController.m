@@ -92,6 +92,7 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 @property (weak, nonatomic) IBOutlet UISegmentedControl *whiteBalanceModeControl;
 @property (weak, nonatomic) IBOutlet UISlider *temperatureSlider;
 @property (weak, nonatomic) IBOutlet UISlider *tintSlider;
+@property (weak, nonatomic) IBOutlet UIButton *grayWorldButton;
 
 @property (weak, nonatomic) IBOutlet UIView *coverView;
 

@@ -242,10 +242,10 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXV-kY-9j4" userLabel="White Balance Controls Stack View">
-                                                        <rect key="frame" x="0.0" y="47" width="374" height="60"/>
+                                                        <rect key="frame" x="0.0" y="47" width="374" height="91"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="99A-Kp-R1y">
-                                                                <rect key="frame" x="0.0" y="0.0" width="374" height="60"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="374" height="91"/>
                                                                 <subviews>
                                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5Y-v1-MKt">
                                                                         <rect key="frame" x="-2" y="0.0" width="378" height="31"/>
@@ -261,9 +261,10 @@
                                                                             <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchCancel" id="lnm-A1-teY"/>
                                                                         </connections>
                                                                     </slider>
-                                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" maximumValueImage="p.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="c2O-fC-f8E">
+                                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="c2O-fC-f8E">
                                                                         <rect key="frame" x="-2" y="30" width="378" height="31"/>
                                                                         <imageReference key="minimumValueImage" image="g.circle" catalog="system"/>
+                                                                        <imageReference key="maximumValueImage" image="p.circle" catalog="system"/>
                                                                         <color key="minimumTrackTintColor" systemColor="systemGreenColor"/>
                                                                         <color key="maximumTrackTintColor" systemColor="systemPinkColor"/>
                                                                         <connections>
@@ -274,19 +275,20 @@
                                                                             <action selector="sliderTouchEnded:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="nQY-lY-pLD"/>
                                                                         </connections>
                                                                     </slider>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1XR-0K-p1z" userLabel="GrayWorld Button">
+                                                                        <rect key="frame" x="0.0" y="60" width="374" height="31"/>
+                                                                        <state key="normal" title="Button"/>
+                                                                        <buttonConfiguration key="configuration" style="plain" title="Neutral White Point">
+                                                                            <imageReference key="image" image="circle.lefthalf.filled" catalog="system"/>
+                                                                        </buttonConfiguration>
+                                                                        <connections>
+                                                                            <action selector="lockWithGrayWorld:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="U4O-rD-Tzk"/>
+                                                                        </connections>
+                                                                    </button>
                                                                 </subviews>
                                                             </stackView>
                                                         </subviews>
                                                     </stackView>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C1m-P8-lsU">
-                                                        <rect key="frame" x="0.0" y="388" width="374" height="31"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain" title="Gray"/>
-                                                        <connections>
-                                                            <action selector="lockWithGrayWorld:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="9Rs-gW-IY3"/>
-                                                        </connections>
-                                                    </button>
                                                 </subviews>
                                                 <viewLayoutGuide key="safeArea" id="DAg-SH-izQ"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -460,6 +462,7 @@
                         <outlet property="exposureDurationValueLabel" destination="zEe-bF-Uts" id="DW3-EF-M8q"/>
                         <outlet property="exposureModeControl" destination="vvO-Ky-Czn" id="pqH-oy-Ju7"/>
                         <outlet property="focusModeControl" destination="ktg-mg-Ejd" id="AWo-pJ-qt9"/>
+                        <outlet property="grayWorldButton" destination="1XR-0K-p1z" id="rte-6V-uYi"/>
                         <outlet property="lensPositionSlider" destination="TV0-Z0-OUU" id="LvC-Bw-06A"/>
                         <outlet property="manualHUD" destination="amH-FF-rBy" id="5GY-L7-Ddm"/>
                         <outlet property="manualHUDExposureView" destination="iQT-Nx-cHE" id="Bpf-ZU-XhK"/>
@@ -490,6 +493,7 @@
         <image name="camera.aperture" catalog="system" width="128" height="121"/>
         <image name="camera.metering.multispot" catalog="system" width="128" height="93"/>
         <image name="camera.metering.none" catalog="system" width="128" height="93"/>
+        <image name="circle.lefthalf.filled" catalog="system" width="128" height="121"/>
         <image name="g.circle" catalog="system" width="128" height="121"/>
         <image name="iphone.slash" catalog="system" width="112" height="128"/>
         <image name="light.max" catalog="system" width="128" height="72"/>
