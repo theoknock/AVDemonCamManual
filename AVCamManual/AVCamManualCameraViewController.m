@@ -15,7 +15,6 @@
 
 #import "AVCamManualCameraViewController.h"
 #import "AVCamManualPreviewView.h"
-#import "AVCamManualPhotoCaptureDelegate.h"
 
 static void * SessionRunningContext = &SessionRunningContext;
 static void * FocusModeContext = &FocusModeContext;

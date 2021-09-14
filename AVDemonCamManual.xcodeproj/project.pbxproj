@@ -14,7 +14,6 @@
 		7A49F5BE1B38C0B6003D7AF5 /* AVCamManualCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A49F5BA1B38C0B6003D7AF5 /* AVCamManualCameraViewController.m */; };
 		7A49F5BF1B38C0B6003D7AF5 /* AVCamManualPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A49F5BC1B38C0B6003D7AF5 /* AVCamManualPreviewView.m */; };
 		7A49F5C31B38C0F3003D7AF5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A49F5C21B38C0F3003D7AF5 /* Images.xcassets */; };
-		7ADABF8F1D5A95BA00F9E623 /* AVCamManualPhotoCaptureDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ADABF8E1D5A95BA00F9E623 /* AVCamManualPhotoCaptureDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +30,6 @@
 		7A49F5BC1B38C0B6003D7AF5 /* AVCamManualPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamManualPreviewView.m; sourceTree = "<group>"; };
 		7A49F5C01B38C0DF003D7AF5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A49F5C21B38C0F3003D7AF5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		7ADABF8D1D5A95BA00F9E623 /* AVCamManualPhotoCaptureDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamManualPhotoCaptureDelegate.h; sourceTree = "<group>"; };
-		7ADABF8E1D5A95BA00F9E623 /* AVCamManualPhotoCaptureDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamManualPhotoCaptureDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -63,8 +60,6 @@
 				7A49F5BC1B38C0B6003D7AF5 /* AVCamManualPreviewView.m */,
 				7A49F5B91B38C0B6003D7AF5 /* AVCamManualCameraViewController.h */,
 				7A49F5BA1B38C0B6003D7AF5 /* AVCamManualCameraViewController.m */,
-				7ADABF8D1D5A95BA00F9E623 /* AVCamManualPhotoCaptureDelegate.h */,
-				7ADABF8E1D5A95BA00F9E623 /* AVCamManualPhotoCaptureDelegate.m */,
 				7A49F5C01B38C0DF003D7AF5 /* Info.plist */,
 				7A49F5A61B38C02B003D7AF5 /* Main.storyboard */,
 				7A49F5C21B38C0F3003D7AF5 /* Images.xcassets */,
@@ -144,7 +139,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7ADABF8F1D5A95BA00F9E623 /* AVCamManualPhotoCaptureDelegate.m in Sources */,
 				7A49F59F1B38C02B003D7AF5 /* main.m in Sources */,
 				7A49F5BE1B38C0B6003D7AF5 /* AVCamManualCameraViewController.m in Sources */,
 				7A49F5BF1B38C0B6003D7AF5 /* AVCamManualPreviewView.m in Sources */,
@@ -291,7 +285,7 @@
 				CURRENT_PROJECT_VERSION = 0.6;
 				DEVELOPMENT_TEAM = N9987K9442;
 				INFOPLIST_FILE = "$(SRCROOT)/AVCamManual/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -314,7 +308,7 @@
 				CURRENT_PROJECT_VERSION = 0.6;
 				DEVELOPMENT_TEAM = N9987K9442;
 				INFOPLIST_FILE = "$(SRCROOT)/AVCamManual/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
