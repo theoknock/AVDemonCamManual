@@ -346,6 +346,9 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     for ( NSNumber *mode in self.exposureModes ) {
         [self.exposureModeControl setEnabled:[self.videoDevice isExposureModeSupported:mode.intValue] forSegmentAtIndex:[self.exposureModes indexOfObject:mode]];
     }
+            [self changeExposureMode:nil];
+            
+            
     
     // Use 0-1 as the slider range and do a non-linear mapping from the slider value to the actual device exposure duration
     self.exposureDurationSlider.minimumValue = 0;
