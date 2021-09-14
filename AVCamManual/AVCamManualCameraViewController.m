@@ -325,22 +325,15 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     // Manual focus controls
     self.focusModes = @[@(AVCaptureFocusModeContinuousAutoFocus), @(AVCaptureFocusModeLocked)];
     
-    
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         __autoreleasing NSError *error;
         if ([_videoDevice lockForConfiguration:&error]) {
             [self.focusModeControl setSelectedSegmentIndex:0];
             self.lensPositionSlider.minimumValue = 0.0;
             self.lensPositionSlider.maximumValue = 1.0;
-            self.lensPositionSlider.value = self.videoDevice.lensPosition;
+            self.lensPositionSlider.value = 0.0;
             [self changeFocusMode:nil];
 //            self.videoDevice.focusMode == AVCaptureFocusModeContinuousAutoFocus && [self.videoDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus];
-        } else {
-            NSLog(@"AVCaptureDevice lockForConfiguration returned error\t%@", error);
-        }
-        [_videoDevice unlockForConfiguration];
-    });
     
     
     
@@ -363,7 +356,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     // Map from duration to non-linear UI range 0-1
     double p = ( exposureDurationSeconds - minExposureDurationSeconds ) / ( maxExposureDurationSeconds - minExposureDurationSeconds ); // Scale to 0-1
     self.exposureDurationSlider.value = pow( p, 1 / kExposureDurationPower ); // Apply inverse power
-    self.exposureDurationSlider.enabled = ( self.videoDevice && self.videoDevice.exposureMode == AVCaptureExposureModeCustom );
+    self.exposureDurationSlider.enabled = ( self.videoDevice && self.videoDevice.exposureMode == AVCaptureExposureModeCustom);
     
     // To-Do: Use this to set the exposure duration to 1.0/3.0 sans slider
     // [self.videoDevice setExposureModeCustomWithDuration:kCMTimeInvalid /*CMTimeMakeWithSeconds( (1.0/3.0), 1000*1000*1000 )
@@ -411,10 +404,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     self.tintSlider.maximumValue = 150;
     self.tintSlider.value = whiteBalanceTemperatureAndTint.tint;
     self.tintSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        __autoreleasing NSError *error;
-        if ([_videoDevice lockForConfiguration:&error]) {
+
             if ([_videoDevice isTorchActive])
                 [_videoDevice setTorchMode:0];
 //            else
