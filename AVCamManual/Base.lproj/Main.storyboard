@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19150" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zFy-Vn-e8f">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19158" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zFy-Vn-e8f">
     <device id="retina6_5" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19134"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19141"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -39,7 +39,7 @@
                                     <action selector="resumeInterruptedSession:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="7GG-E1-MyM"/>
                                 </connections>
                             </button>
-                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="amH-FF-rBy" userLabel="Manual HUD">
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="amH-FF-rBy" userLabel="Manual HUD">
                                 <rect key="frame" x="20" y="44" width="374" height="838"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="543-NV-2bk">
@@ -50,6 +50,7 @@
                                             <segment title="" image="camera.aperture" catalog="system"/>
                                             <segment title="" image="magnifyingglass.circle" catalog="system"/>
                                             <segment title="AWB"/>
+                                            <segment title="" image="arrow.2.squarepath" catalog="system"/>
                                         </segments>
                                         <connections>
                                             <action selector="changeManualHUD:" destination="zFy-Vn-e8f" eventType="valueChanged" id="cyM-Ns-N9M"/>
@@ -298,6 +299,39 @@
                                                     <constraint firstItem="Pez-TP-eVs" firstAttribute="trailing" secondItem="DAg-SH-izQ" secondAttribute="trailing" id="TKd-k3-ff5"/>
                                                 </constraints>
                                             </view>
+                                            <view hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S01-tI-1g6" userLabel="ManualHUD Presets View">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="807"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WLs-g2-i4q" userLabel="Default">
+                                                        <rect key="frame" x="0.0" y="8" width="54.666666666666664" height="34.333333333333336"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" image="arrow.2.squarepath" catalog="system">
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="17"/>
+                                                        </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="setPreset:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="GBw-Qm-AvG"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtY-Zb-Yy4" userLabel="ExDurISO">
+                                                        <rect key="frame" x="54.666666666666671" y="8" width="50" height="34.333333333333336"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" image="camera.filters" catalog="system">
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="17"/>
+                                                        </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="setPreset:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="Gsw-Kl-TSl"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <viewLayoutGuide key="safeArea" id="aAT-qQ-9Zb"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="WLs-g2-i4q" firstAttribute="leading" secondItem="aAT-qQ-9Zb" secondAttribute="leading" id="77p-gv-HVw"/>
+                                                    <constraint firstItem="WLs-g2-i4q" firstAttribute="top" secondItem="aAT-qQ-9Zb" secondAttribute="top" constant="8" id="TVY-XI-1uT"/>
+                                                    <constraint firstItem="OtY-Zb-Yy4" firstAttribute="leading" secondItem="WLs-g2-i4q" secondAttribute="trailing" id="oAf-wl-xSh"/>
+                                                    <constraint firstItem="OtY-Zb-Yy4" firstAttribute="top" secondItem="aAT-qQ-9Zb" secondAttribute="top" constant="8" id="qqA-hu-Qjv"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -329,6 +363,7 @@
                                             <constraint firstItem="iQT-Nx-cHE" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" constant="-82" id="nnI-Yi-BRZ"/>
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="bottom" secondItem="iQT-Nx-cHE" secondAttribute="bottom" id="pjW-9C-jv9"/>
                                             <constraint firstItem="iQT-Nx-cHE" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="rYn-YP-ah5"/>
+                                            <constraint firstItem="S01-tI-1g6" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="teZ-m1-43S"/>
                                             <constraint firstAttribute="bottom" secondItem="tCR-0s-Q5n" secondAttribute="bottom" id="tpq-Ow-jgu"/>
                                             <constraint firstItem="cXV-kY-9j4" firstAttribute="centerX" secondItem="Akx-Oj-5Sj" secondAttribute="centerX" id="wIq-a4-p9J"/>
                                             <constraint firstAttribute="trailing" secondItem="tCR-0s-Q5n" secondAttribute="trailing" id="xj2-8b-p7C"/>
@@ -347,8 +382,11 @@
                                 <constraints>
                                     <constraint firstItem="Akx-Oj-5Sj" firstAttribute="bottom" secondItem="amH-FF-rBy" secondAttribute="bottom" id="0jO-Ap-6Vq"/>
                                     <constraint firstAttribute="trailing" secondItem="543-NV-2bk" secondAttribute="trailing" id="1T3-ff-897"/>
+                                    <constraint firstAttribute="bottom" secondItem="S01-tI-1g6" secondAttribute="bottom" id="4rU-xx-QmG"/>
+                                    <constraint firstAttribute="trailing" secondItem="S01-tI-1g6" secondAttribute="trailing" id="AJy-QU-FIz"/>
                                     <constraint firstItem="vvO-Ky-Czn" firstAttribute="top" secondItem="543-NV-2bk" secondAttribute="bottom" constant="8" id="Dcg-gB-Pbl"/>
                                     <constraint firstItem="ktg-mg-Ejd" firstAttribute="top" secondItem="543-NV-2bk" secondAttribute="bottom" constant="8" id="HgA-1I-sRa"/>
+                                    <constraint firstItem="S01-tI-1g6" firstAttribute="leading" secondItem="amH-FF-rBy" secondAttribute="leading" id="eFD-8a-E8K"/>
                                     <constraint firstItem="Akx-Oj-5Sj" firstAttribute="trailing" secondItem="543-NV-2bk" secondAttribute="trailing" id="ebw-3h-p3M"/>
                                     <constraint firstItem="543-NV-2bk" firstAttribute="width" secondItem="amH-FF-rBy" secondAttribute="width" id="i8T-de-Bj5"/>
                                     <constraint firstItem="543-NV-2bk" firstAttribute="leading" secondItem="amH-FF-rBy" secondAttribute="leading" id="jti-t0-wcM"/>
@@ -458,6 +496,8 @@
                         <outlet property="cameraUnavailableImageView" destination="fSz-dY-3y2" id="ntJ-uX-8d8"/>
                         <outlet property="controlsView" destination="Akx-Oj-5Sj" id="OZY-fQ-eeW"/>
                         <outlet property="coverView" destination="vRU-a6-qp8" id="ZkZ-Rr-Xal"/>
+                        <outlet property="defaultPresetsButton" destination="WLs-g2-i4q" id="RHn-0V-bWW"/>
+                        <outlet property="exDurISOPresetsButton" destination="OtY-Zb-Yy4" id="J4a-tR-dSN"/>
                         <outlet property="exposureDurationSlider" destination="7R6-CN-WmZ" id="bsY-ft-Wyy"/>
                         <outlet property="exposureDurationValueLabel" destination="zEe-bF-Uts" id="DW3-EF-M8q"/>
                         <outlet property="exposureModeControl" destination="vvO-Ky-Czn" id="pqH-oy-Ju7"/>
@@ -467,6 +507,7 @@
                         <outlet property="manualHUD" destination="amH-FF-rBy" id="5GY-L7-Ddm"/>
                         <outlet property="manualHUDExposureView" destination="iQT-Nx-cHE" id="Bpf-ZU-XhK"/>
                         <outlet property="manualHUDFocusView" destination="MDr-ZD-uoq" id="zuW-eL-JvW"/>
+                        <outlet property="manualHUDPresetsView" destination="S01-tI-1g6" id="m4d-Zg-NzA"/>
                         <outlet property="manualHUDTorchLevelView" destination="XXb-cy-BED" id="FX3-V0-nVr"/>
                         <outlet property="manualHUDVideoZoomFactorView" destination="tCR-0s-Q5n" id="ebG-Fc-c0y"/>
                         <outlet property="manualHUDWhiteBalanceView" destination="puZ-nU-nwq" id="0Uz-DK-r3i"/>
@@ -488,9 +529,11 @@
     </scenes>
     <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
+        <image name="arrow.2.squarepath" catalog="system" width="128" height="89"/>
         <image name="b.circle" catalog="system" width="128" height="121"/>
         <image name="bolt.circle" catalog="system" width="128" height="121"/>
         <image name="camera.aperture" catalog="system" width="128" height="121"/>
+        <image name="camera.filters" catalog="system" width="128" height="116"/>
         <image name="camera.metering.multispot" catalog="system" width="128" height="93"/>
         <image name="camera.metering.none" catalog="system" width="128" height="93"/>
         <image name="circle.lefthalf.filled" catalog="system" width="128" height="121"/>

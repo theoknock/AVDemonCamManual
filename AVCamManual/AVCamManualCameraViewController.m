@@ -15,7 +15,7 @@
 
 #import "AVCamManualCameraViewController.h"
 #import "AVCamManualPreviewView.h"
-#import "AVCamManualPhotoCaptureDelegate.h"
+#import "AVCamManualAppDelegate.h"
 
 static void * SessionRunningContext = &SessionRunningContext;
 static void * FocusModeContext = &FocusModeContext;
@@ -27,6 +27,7 @@ static void * ISOContext = &ISOContext;
 static void * ExposureTargetBiasContext = &ExposureTargetBiasContext;
 static void * ExposureTargetOffsetContext = &ExposureTargetOffsetContext;
 static void * VideoZoomFactorContext = &VideoZoomFactorContext;
+static void * PresetsContext = &PresetsContext;
 
 static void * DeviceWhiteBalanceGainsContext = &DeviceWhiteBalanceGainsContext;
 static void * WhiteBalanceModeContext = &WhiteBalanceModeContext;
@@ -98,6 +99,11 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 
 @property (nonatomic, weak) IBOutlet UIView *manualHUDLensStabilizationView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *lensStabilizationControl;
+
+@property (weak, nonatomic) IBOutlet UIView *manualHUDPresetsView;
+@property (weak, nonatomic) IBOutlet UIButton *defaultPresetsButton;
+@property (weak, nonatomic) IBOutlet UIButton *exDurISOPresetsButton;
+
 
 // Session management
 @property (nonatomic) dispatch_queue_t sessionQueue;
@@ -319,19 +325,24 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     // Manual focus controls
     self.focusModes = @[@(AVCaptureFocusModeContinuousAutoFocus), @(AVCaptureFocusModeLocked)];
     
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //        NSLog(@"Setting selected index of focus mode control to 1 (manual)");
-    //        self.focusModeControl.enabled = ( self.videoDevice != nil );
-    //        [self.focusModeControl setSelectedSegmentIndex:@(self.videoDevice.focusMode)];
-    ////        for ( NSNumber *mode in self.focusModes ) {
-    ////            [self.focusModeControl setEnabled:[self.videoDevice isFocusModeSupported:mode.intValue] forSegmentAtIndex:[self.focusModes indexOfObject:mode]];
-    ////        }
-    //    });
     
-    self.lensPositionSlider.minimumValue = 0.0;
-    self.lensPositionSlider.maximumValue = 1.0;
-    self.lensPositionSlider.value = self.videoDevice.lensPosition;
-    self.lensPositionSlider.enabled = ( self.videoDevice && self.videoDevice.focusMode == AVCaptureFocusModeLocked && [self.videoDevice isFocusModeSupported:AVCaptureFocusModeLocked] );
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __autoreleasing NSError *error;
+        if ([_videoDevice lockForConfiguration:&error]) {
+            [self.focusModeControl setSelectedSegmentIndex:0];
+            self.lensPositionSlider.minimumValue = 0.0;
+            self.lensPositionSlider.maximumValue = 1.0;
+            self.lensPositionSlider.value = self.videoDevice.lensPosition;
+            [self changeFocusMode:nil];
+//            self.videoDevice.focusMode == AVCaptureFocusModeContinuousAutoFocus && [self.videoDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus];
+        } else {
+            NSLog(@"AVCaptureDevice lockForConfiguration returned error\t%@", error);
+        }
+        [_videoDevice unlockForConfiguration];
+    });
+    
+    
     
     // Manual exposure controls
     self.exposureModes = @[@(AVCaptureExposureModeContinuousAutoExposure), @(AVCaptureExposureModeLocked), @(AVCaptureExposureModeCustom)];
@@ -400,6 +411,19 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     self.tintSlider.maximumValue = 150;
     self.tintSlider.value = whiteBalanceTemperatureAndTint.tint;
     self.tintSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __autoreleasing NSError *error;
+        if ([_videoDevice lockForConfiguration:&error]) {
+            if ([_videoDevice isTorchActive])
+                [_videoDevice setTorchMode:0];
+//            else
+//                [_videoDevice setTorchModeOnWithLevel:AVCaptureMaxAvailableTorchLevel error:nil];
+        } else {
+            NSLog(@"AVCaptureDevice lockForConfiguration returned error\t%@", error);
+        }
+        [_videoDevice unlockForConfiguration];
+    });
 }
 
 //- (IBAction)toggleTorch:(id)sender
@@ -434,6 +458,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self toggleControlViewVisibility:@[self.manualHUDExposureView]        hide:(control.selectedSegmentIndex == 2) ? NO : YES];
     [self toggleControlViewVisibility:@[self.manualHUDVideoZoomFactorView] hide:(control.selectedSegmentIndex == 3) ? NO : YES];
     [self toggleControlViewVisibility:@[self.manualHUDWhiteBalanceView] hide:(control.selectedSegmentIndex == 4) ? NO : YES];
+    [self toggleControlViewVisibility:@[self.manualHUDPresetsView] hide:(control.selectedSegmentIndex == 5) ? NO : YES];
 }
 
 - (void)setSlider:(UISlider *)slider highlightColor:(UIColor *)color
@@ -593,22 +618,6 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 
 - (IBAction)changeCaptureMode:(UISegmentedControl *)captureModeControl
 {
-    //	if ( captureModeControl.selectedSegmentIndex == AVCamManualCaptureModePhoto ) {
-    //		self.recordButton.enabled = NO;
-    //
-    //		dispatch_async( self.sessionQueue, ^{
-    //			// Remove the AVCaptureMovieFileOutput from the session because movie recording is not supported with AVCaptureSessionPresetPhoto. Additionally, Live Photo
-    //			// capture is not supported when an AVCaptureMovieFileOutput is connected to the session.
-    //			[self.session beginConfiguration];
-    //			[self.session removeOutput:self.movieFileOutput];
-    //			self.session.sessionPreset = AVCaptureSessionPresetPhoto;
-    //			[self.session commitConfiguration];
-    //
-    //			self.movieFileOutput = nil;
-    //		} );
-    //	}
-    //	else if ( captureModeControl.selectedSegmentIndex == AVCamManualCaptureModeMovie ) {
-    
     dispatch_async( self.sessionQueue, ^{
         AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
         
@@ -629,26 +638,9 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             } );
         }
     } );
-    //	}
 }
 
 #pragma mark Device Configuration
-
-- (IBAction)chooseNewCamera:(id)sender
-{
-    // Present all available cameras
-    UIAlertController *cameraOptionsController = [UIAlertController alertControllerWithTitle:@"Choose a camera" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    [cameraOptionsController addAction:cancelAction];
-    for ( AVCaptureDevice *device in self.videoDeviceDiscoverySession.devices ) {
-        UIAlertAction *newDeviceOption = [UIAlertAction actionWithTitle:device.localizedName style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self changeCameraWithDevice:device];
-        }];
-        [cameraOptionsController addAction:newDeviceOption];
-    }
-    
-    [self presentViewController:cameraOptionsController animated:YES completion:nil];
-}
 
 - (void)changeCameraWithDevice:(AVCaptureDevice *)newVideoDevice
 {
@@ -768,7 +760,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 
 - (IBAction)focusAndExposeTap:(UIGestureRecognizer *)gestureRecognizer
 {
-    CGPoint devicePoint = [(AVCaptureVideoPreviewLayer *)self.previewView.layer captureDevicePointOfInterestForPoint:[gestureRecognizer locationInView:[gestureRecognizer view]]];
+    CGPoint devicePoint = [(AVCaptureVideoPreviewLayer *)[[self.previewView.layer sublayers] lastObject] captureDevicePointOfInterestForPoint:[gestureRecognizer locationInView:[gestureRecognizer view]]];
     [self focusWithMode:self.videoDevice.focusMode exposeWithMode:self.videoDevice.exposureMode atDevicePoint:devicePoint monitorSubjectAreaChange:YES];
 }
 
@@ -980,6 +972,46 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 //
 //    return g;
 //}
+
+- (IBAction)setPreset:(UIButton *)sender {
+    switch (sender.tag) {
+        case 0: {
+            NSLog(@"%s\nTag: %lu", __PRETTY_FUNCTION__, sender.tag);
+            // Set camera settings to app defaults
+            //            dispatch_async( self.sessionQueue, ^{
+            //                [self.videoDevice lockForConfiguration:nil];
+            //                [self.session beginConfiguration];
+            //                //
+            //                for (AVCaptureInput * input in self.session.inputs)
+            //                    [self.session removeInput:input];
+            //                for (AVCaptureOutput * output in self.previewView.session.outputs)
+            //                    [self.session removeOutput:output];
+            //                for (AVCaptureConnection * connection in self.session.connections)
+            //                    [self.session removeConnection:connection];
+            //                [self.session commitConfiguration];
+            //                [self.videoDevice unlockForConfiguration];
+            //                [self.session stopRunning];
+            //                dispatch_async(dispatch_get_main_queue(), ^{
+            //                    [self viewDidLoad];
+            //                });
+            //            [self removeObservers];
+            
+            dispatch_async( dispatch_get_main_queue(), ^{
+                [self configureManualHUD];
+            });
+            
+            break;
+        }
+        case 1:
+            // Set camera to optimal exposure duration/ISO settings
+            break;
+            
+        default:
+            break;
+    }
+    
+}
+
 
 #pragma mark Recording Movies
 
