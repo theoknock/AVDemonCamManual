@@ -1086,17 +1086,11 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         
         dispatch_async( self.sessionQueue, ^{
             if ( [UIDevice currentDevice].isMultitaskingSupported ) {
-                // Setup background task. This is needed because the -[captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:]
-                // callback is not received until AVCamManual returns to the foreground unless you request background execution time.
-                // This also ensures that there will be time to write the file to the photo library when AVCamManual is backgrounded.
-                // To conclude this background execution, -endBackgroundTask is called in
-                // -[captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:] after the recorded file has been saved.
                 self.backgroundRecordingID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
             }
             AVCaptureConnection *movieConnection = [self.movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
             movieConnection.videoOrientation = previewLayerVideoOrientation;
             
-            // Start recording to temporary file
             NSString *outputFileName = [NSProcessInfo processInfo].globallyUniqueString;
             NSString *outputFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[outputFileName stringByAppendingPathExtension:@"mov"]];
             [self.movieFileOutput startRecordingToOutputFileURL:[NSURL fileURLWithPath:outputFilePath] recordingDelegate:self];
