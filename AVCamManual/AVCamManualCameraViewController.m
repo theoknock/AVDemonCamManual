@@ -100,8 +100,6 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 @property (nonatomic, weak) IBOutlet UIView *manualHUDLensStabilizationView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *lensStabilizationControl;
 
-@property (weak, nonatomic) IBOutlet UIView *manualHUDPresetsView;
-@property (weak, nonatomic) IBOutlet UIButton *defaultPresetsButton;
 @property (weak, nonatomic) IBOutlet UIButton *exDurISOPresetsButton;
 
 
@@ -451,7 +449,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self toggleControlViewVisibility:@[self.manualHUDExposureView]        hide:(control.selectedSegmentIndex == 2) ? NO : YES];
     [self toggleControlViewVisibility:@[self.manualHUDVideoZoomFactorView] hide:(control.selectedSegmentIndex == 3) ? NO : YES];
     [self toggleControlViewVisibility:@[self.manualHUDWhiteBalanceView] hide:(control.selectedSegmentIndex == 4) ? NO : YES];
-    [self toggleControlViewVisibility:@[self.manualHUDPresetsView] hide:(control.selectedSegmentIndex == 5) ? NO : YES];
+//    [self toggleControlViewVisibility:@[self.manualHUDPresetsView] hide:(control.selectedSegmentIndex == 5) ? NO : YES];
 }
 
 - (void)setSlider:(UISlider *)slider highlightColor:(UIColor *)color
@@ -966,43 +964,109 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 //    return g;
 //}
 
-- (IBAction)setPreset:(UIButton *)sender {
-    switch (sender.tag) {
-        case 0: {
-            NSLog(@"%s\nTag: %lu", __PRETTY_FUNCTION__, sender.tag);
-            // Set camera settings to app defaults
-            //            dispatch_async( self.sessionQueue, ^{
-            //                [self.videoDevice lockForConfiguration:nil];
-            //                [self.session beginConfiguration];
-            //                //
-            //                for (AVCaptureInput * input in self.session.inputs)
-            //                    [self.session removeInput:input];
-            //                for (AVCaptureOutput * output in self.previewView.session.outputs)
-            //                    [self.session removeOutput:output];
-            //                for (AVCaptureConnection * connection in self.session.connections)
-            //                    [self.session removeConnection:connection];
-            //                [self.session commitConfiguration];
-            //                [self.videoDevice unlockForConfiguration];
-            //                [self.session stopRunning];
-            //                dispatch_async(dispatch_get_main_queue(), ^{
-            //                    [self viewDidLoad];
-            //                });
-            //            [self removeObservers];
-            
-            dispatch_async( dispatch_get_main_queue(), ^{
-                [self configureManualHUD];
-            });
-            
-            break;
-        }
-        case 1:
-            // Set camera to optimal exposure duration/ISO settings
-            break;
-            
-        default:
-            break;
-    }
+- (void)resetAppDefaults
+{
+    NSLog(@"%s\n", __PRETTY_FUNCTION__);
+    // Set camera settings to app defaults
+    //            dispatch_async( self.sessionQueue, ^{
+    //                [self.videoDevice lockForConfiguration:nil];
+    //                [self.session beginConfiguration];
+    //                //
+    //                for (AVCaptureInput * input in self.session.inputs)
+    //                    [self.session removeInput:input];
+    //                for (AVCaptureOutput * output in self.previewView.session.outputs)
+    //                    [self.session removeOutput:output];
+    //                for (AVCaptureConnection * connection in self.session.connections)
+    //                    [self.session removeConnection:connection];
+    //                [self.session commitConfiguration];
+    //                [self.videoDevice unlockForConfiguration];
+    //                [self.session stopRunning];
+    //                dispatch_async(dispatch_get_main_queue(), ^{
+    //                    [self viewDidLoad];
+    //                });
+    //            [self removeObservers];
     
+    dispatch_async( dispatch_get_main_queue(), ^{
+        [self configureManualHUD];
+    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self viewDidLoad];
+//    });
+}
+
+- (IBAction)setPreset:(UIButton *)sender {
+//    [self resetAppDefaults];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UISlider *control = self.exposureModeControl;
+        NSError *error = nil;
+        
+        if ( [self.videoDevice lockForConfiguration:&error] ) {
+            self.exposureModeControl.selectedSegmentIndex = 2;
+            [self changeExposureMode:control];
+            [self.videoDevice unlockForConfiguration];
+        }
+        else {
+            NSLog( @"Could not lock device for configuration: %@", error );
+        }
+        
+        control = self.exposureDurationSlider;
+        error = nil;
+
+        double p = pow( control.value, kExposureDurationPower ); // Apply power function to expand slider's low-end range
+//        double minDurationSeconds = MAX( CMTimeGetSeconds( self.videoDevice.activeFormat.minExposureDuration ), kExposureMinimumDuration );
+        double maxDurationSeconds = 1.0/3.0;//CMTimeGetSeconds( self.videoDevice.activeFormat.maxExposureDuration );
+//        double newDurationSeconds = p * ( maxDurationSeconds - minDurationSeconds ) + minDurationSeconds; // Scale from 0-1 slider range to actual duration
+        //    if (newDurationSeconds > 0.330918 && newDurationSeconds < 0.357056)
+        //    {
+        //        NSLog(@"newDurationSeconds\t%f", newDurationSeconds);
+        //        double newDurationSeconds = 0.3309180;
+        //    }
+
+        if ( [self.videoDevice lockForConfiguration:&error] ) {
+            [self.videoDevice setExposureModeCustomWithDuration:CMTimeMakeWithSeconds( maxDurationSeconds, 1000*1000*1000 )  ISO:AVCaptureISOCurrent completionHandler:nil];
+            [self.videoDevice unlockForConfiguration];
+        }
+        else {
+            NSLog( @"Could not lock device for configuration: %@", error );
+        }
+        
+        self.manualHUD.hidden = FALSE;
+        [self toggleControlViewVisibility:@[self.manualHUDExposureView] hide:NO];
+//
+//        control = self.ISOSlider;
+//        error = nil;
+//
+//        if ( [self.videoDevice lockForConfiguration:&error] ) {
+//            [self.videoDevice setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent ISO:self.videoDevice.activeFormat.maxISO completionHandler:nil];
+//            [self.videoDevice unlockForConfiguration];
+//        }
+//        else {
+//            NSLog( @"Could not lock device for configuration: %@", error );
+//        }
+//
+//
+//        [sender setTag:(sender.tag == 1) ? 0 : 1];
+//        NSLog(@"sender.tag == %lu\n", sender.tag);
+//        [self.exposureModeControl setSelectedSegmentIndex:2];
+//                    [self changeExposureMode:self.exposureModeControl];
+    });
+//    if (sender.tag == 0)
+//    {
+//        // Set camera to optimal exposure duration/ISO settings
+//        dispatch_async( dispatch_get_main_queue(), ^{
+////            [self.videoDevice lockForConfiguration:nil];
+//
+////            [self.ISOSlider setValue:self.ISOSlider.maximumValue];
+////            [self.exposureDurationSlider setValue:self.exposureDurationSlider.maximumValue];
+////            [self changeISO:self.ISOSlider];
+////            [self changeExposureDuration:self.exposureDurationSlider];
+////            [self.videoDevice setExposureModeCustomWithDuration:CMTimeMakeWithSeconds( (1.0/3.0), 1000*1000*1000 )
+////                                                             ISO:averageISO
+////                                               completionHandler:nil];
+//        });
+////            [self.videoDevice unlockForConfiguration];
+//
+//    }
 }
 
 
