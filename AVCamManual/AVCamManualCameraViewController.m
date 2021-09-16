@@ -1479,8 +1479,6 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     }
 }
 
-#pragma mark Utilities
-
 - (NSString *)stringFromFocusMode:(AVCaptureFocusMode)focusMode
 {
     NSString *string = @"INVALID FOCUS MODE";
