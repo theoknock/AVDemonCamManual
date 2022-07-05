@@ -285,7 +285,7 @@
 				CURRENT_PROJECT_VERSION = 0.6;
 				DEVELOPMENT_TEAM = N9987K9442;
 				INFOPLIST_FILE = "$(SRCROOT)/AVCamManual/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,7 +308,7 @@
 				CURRENT_PROJECT_VERSION = 0.6;
 				DEVELOPMENT_TEAM = N9987K9442;
 				INFOPLIST_FILE = "$(SRCROOT)/AVCamManual/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

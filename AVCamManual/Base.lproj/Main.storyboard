@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zFy-Vn-e8f">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21179.7" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zFy-Vn-e8f">
     <device id="retina6_5" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21169.4"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -13,8 +14,8 @@
         <!--Cam Manual Camera View Controller-->
         <scene sceneID="o5M-B8-Hza">
             <objects>
-                <viewController interfaceStyle="dark" id="zFy-Vn-e8f" customClass="AVCamManualCameraViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9Za-05-zwY" customClass="AVCamManualPreviewView">
+                <viewController id="zFy-Vn-e8f" customClass="AVCamManualCameraViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleAspectFit" id="9Za-05-zwY" customClass="AVCamManualPreviewView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -241,10 +242,10 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXV-kY-9j4" userLabel="White Balance Controls Stack View">
-                                                        <rect key="frame" x="0.0" y="47" width="374" height="91"/>
+                                                        <rect key="frame" x="0.0" y="46.999999999999993" width="374" height="94.333333333333314"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="99A-Kp-R1y">
-                                                                <rect key="frame" x="0.0" y="0.0" width="374" height="91"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="374" height="94.333333333333329"/>
                                                                 <subviews>
                                                                     <slider opaque="NO" tag="-1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="g5Y-v1-MKt">
                                                                         <rect key="frame" x="-2" y="0.0" width="378" height="31"/>
@@ -275,7 +276,7 @@
                                                                         </connections>
                                                                     </slider>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1XR-0K-p1z" userLabel="GrayWorld Button">
-                                                                        <rect key="frame" x="0.0" y="60" width="374" height="31"/>
+                                                                        <rect key="frame" x="0.0" y="60" width="374" height="34.333333333333343"/>
                                                                         <state key="normal" title="Button"/>
                                                                         <buttonConfiguration key="configuration" style="plain" title="Neutral White Point">
                                                                             <imageReference key="image" image="circle.lefthalf.filled" catalog="system"/>
@@ -376,7 +377,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Smd-uf-eMP" userLabel="Toggle Mode Button">
-                                <rect key="frame" x="63.333333333333336" y="795" width="101.33333333333331" height="52"/>
+                                <rect key="frame" x="60.000000000000007" y="795" width="104.66666666666669" height="52"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="camera.filters" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="32"/>
@@ -386,7 +387,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BZ1-aS-3u4" userLabel="Settings">
-                                <rect key="frame" x="8.0000000000000036" y="792" width="55.333333333333343" height="58"/>
+                                <rect key="frame" x="8" y="792" width="52" height="58"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="48"/>
                                 <state key="normal">
@@ -501,26 +502,26 @@
     </scenes>
     <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
-        <image name="b.circle" catalog="system" width="128" height="121"/>
-        <image name="bolt.circle" catalog="system" width="128" height="121"/>
-        <image name="camera.aperture" catalog="system" width="128" height="121"/>
-        <image name="camera.filters" catalog="system" width="128" height="116"/>
+        <image name="b.circle" catalog="system" width="128" height="123"/>
+        <image name="bolt.circle" catalog="system" width="128" height="123"/>
+        <image name="camera.aperture" catalog="system" width="128" height="123"/>
+        <image name="camera.filters" catalog="system" width="128" height="119"/>
         <image name="camera.metering.multispot" catalog="system" width="128" height="93"/>
         <image name="camera.metering.none" catalog="system" width="128" height="93"/>
-        <image name="circle.lefthalf.filled" catalog="system" width="128" height="121"/>
-        <image name="g.circle" catalog="system" width="128" height="121"/>
+        <image name="circle.lefthalf.filled" catalog="system" width="128" height="123"/>
+        <image name="g.circle" catalog="system" width="128" height="123"/>
         <image name="iphone.slash" catalog="system" width="112" height="128"/>
         <image name="light.max" catalog="system" width="128" height="72"/>
         <image name="light.min" catalog="system" width="128" height="75"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="magnifyingglass.circle" catalog="system" width="128" height="121"/>
-        <image name="p.circle" catalog="system" width="128" height="121"/>
-        <image name="plus.magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="r.circle" catalog="system" width="128" height="121"/>
-        <image name="record.circle" catalog="system" width="128" height="121"/>
-        <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
-        <image name="video.slash" catalog="system" width="128" height="106"/>
-        <image name="viewfinder.circle" catalog="system" width="128" height="121"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <image name="magnifyingglass.circle" catalog="system" width="128" height="123"/>
+        <image name="p.circle" catalog="system" width="128" height="123"/>
+        <image name="plus.magnifyingglass" catalog="system" width="128" height="117"/>
+        <image name="r.circle" catalog="system" width="128" height="123"/>
+        <image name="record.circle" catalog="system" width="128" height="123"/>
+        <image name="slider.horizontal.3" catalog="system" width="128" height="99"/>
+        <image name="video.slash" catalog="system" width="128" height="105"/>
+        <image name="viewfinder.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

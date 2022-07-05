@@ -163,8 +163,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     
     self.session = [[AVCaptureSession alloc] init];
     
-    NSArray<NSString *> *deviceTypes = @[AVCaptureDeviceTypeBuiltInWideAngleCamera, AVCaptureDeviceTypeBuiltInDualCamera, AVCaptureDeviceTypeBuiltInTelephotoCamera];
-    self.videoDeviceDiscoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:deviceTypes mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
+    NSArray<NSString *> *deviceTypes = @[AVCaptureDeviceTypeBuiltInWideAngleCamera];
+    self.videoDeviceDiscoverySession = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:deviceTypes mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionBack];
     
     self.previewView.session = self.session;
     
@@ -302,13 +302,13 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 - (BOOL)shouldAutorotate
 {
     // Disable autorotation of the interface when recording is in progress
-    return ! self.movieFileOutput.isRecording;
+    return FALSE;// ! self.movieFileOutput.isRecording;
 }
 
 - (BOOL)prefersStatusBarHidden
