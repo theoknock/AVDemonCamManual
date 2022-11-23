@@ -160,7 +160,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.session = [[AVCaptureSession alloc] init];
     
     NSArray<NSString *> *deviceTypes = @[AVCaptureDeviceTypeBuiltInWideAngleCamera];
@@ -377,9 +377,9 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     self.exposureTargetOffsetSlider.value = self.videoDevice.exposureTargetOffset;
     self.exposureTargetOffsetSlider.enabled = NO;
     
-    self.videoZoomFactorSlider.minimumValue = 1.0;
-    self.videoZoomFactorSlider.maximumValue = self.videoDevice.activeFormat.videoMaxZoomFactor;
-    self.videoZoomFactorSlider.value = 1.0;
+    self.videoZoomFactorSlider.minimumValue = 0.0;
+            self.videoZoomFactorSlider.maximumValue = 1.0;
+    self.videoZoomFactorSlider.value = 0.0;
     self.videoZoomFactorSlider.enabled = YES;
     
     // To-Do: Restore these for "color-contrasting" overwhite/overblack subject areas (where luminosity contrasting fails)
@@ -436,7 +436,8 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 
 - (IBAction)toggleHUD:(id)sender
 {
-    self.manualHUD.hidden = ! self.manualHUD.hidden;
+    [sender setSelected:self.manualHUD.hidden = ! self.manualHUD.hidden];
+    [sender setHighlighted:[sender isSelected]];
 }
 
 - (IBAction)changeManualHUD:(id)sender
@@ -856,14 +857,20 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     }
 }
 
+static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (float old_value, float old_min, float old_max, float new_min, float new_max) {
+    float scaled_value = (new_max - new_min) * (old_value - old_min) / (old_max - old_min) + new_min;
+    return scaled_value;
+};
+
 - (IBAction)changeVideoZoomFactor:(UISlider *)sender {
     if (![self.videoDevice isRampingVideoZoom]) {
         [self willChangeValueForKey:@"videoZoomFactor"];
         NSError *error = nil;
         
         if ( [self.videoDevice lockForConfiguration:&error] ) {
-            
-            [self.videoDevice setVideoZoomFactor:sender.value];
+            float gamma = pow(sender.value, 3.f);
+            float scale = rescale(gamma, 0.f, 3.f, 1.f, self.videoDevice.maxAvailableVideoZoomFactor);
+            [self.videoDevice setVideoZoomFactor:scale];
             [self.videoDevice unlockForConfiguration];
         }
         else {
@@ -1074,7 +1081,6 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 
 - (IBAction)toggleMovieRecording:(id)sender
 {
-    
     // Retrieve the video preview layer's video orientation on the main queue before entering the session queue. We do this to ensure UI
     // elements are accessed on the main thread and session configuration is done on the session queue.
     AVCaptureVideoPreviewLayer *previewLayer = (AVCaptureVideoPreviewLayer *)self.previewView.layer;
@@ -1347,7 +1353,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         if ( newValue && newValue != [NSNull null] ) {
             float newZoomFactor = [newValue floatValue];
             dispatch_async( dispatch_get_main_queue(), ^{
-                self.videoZoomFactorSlider.value = newZoomFactor;
+                self.videoZoomFactorSlider.value = rescale(newZoomFactor, 1.0, 3.f, 0.0, 1.0);
                 self.videoZoomFactorValueLabel.text = [NSString stringWithFormat:@"%.1f", newZoomFactor];
             } );
         }
