@@ -430,23 +430,45 @@ static const double kVideoZoomFactorPowerCoefficient = 3.333f; // Higher numbers
 //    });
 //}
 
-- (IBAction)toggleHUD:(id)sender
+- (IBAction)toggleHUD:(UIButton *)sender
 {
-    [sender setSelected:self.manualHUD.hidden = ! self.manualHUD.hidden];
-    [sender setHighlighted:[sender isSelected]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [sender setSelected:self.manualHUD.hidden = !self.manualHUD.hidden];
+        [sender setHighlighted:!self.manualHUD.hidden];
+    });
 }
 
-- (IBAction)changeManualHUD:(id)sender
-{
+- (IBAction)changeManualHUDSelection:(UISegmentedControl *)sender {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    UISegmentedControl *control = (UISegmentedControl *)sender;
+    for (UIView * view in self.controlsView.subviews) {
+        BOOL shouldHide = (view.tag == sender.selectedSegmentIndex) ? !view.hidden : TRUE;
+        view.hidden = shouldHide;
+        [view setAlpha:!shouldHide];
+    };
     
-    [self toggleControlViewVisibility:@[self.manualHUDTorchLevelView]      hide:(control.selectedSegmentIndex == 0) ? NO : YES];
-    [self toggleControlViewVisibility:@[self.manualHUDFocusView]           hide:(control.selectedSegmentIndex == 1) ? NO : YES];
-    [self toggleControlViewVisibility:@[self.manualHUDExposureView]        hide:(control.selectedSegmentIndex == 2) ? NO : YES];
-    [self toggleControlViewVisibility:@[self.manualHUDVideoZoomFactorView] hide:(control.selectedSegmentIndex == 3) ? NO : YES];
-    [self toggleControlViewVisibility:@[self.manualHUDWhiteBalanceView] hide:(control.selectedSegmentIndex == 4) ? NO : YES];
-    //    [self toggleControlViewVisibility:@[self.manualHUDPresetsView] hide:(control.selectedSegmentIndex == 5) ? NO : YES];
+//    switch (sender.selectedSegmentIndex) {
+//        case 0:
+//            self.manualHUDTorchLevelView.hidden = !self.manualHUDTorchLevelView.hidden;
+//            break;
+//        case 1:
+//            self.manualHUDTorchLevelView.hidden = !self.manualHUDTorchLevelView.hidden;
+//            break;
+//        case 2:
+//            self.manualHUDFocusView.hidden = !self.manualHUDFocusView.hidden;
+//            break;
+//        case 3:
+//            self.manualHUDExposureView.hidden = !self.manualHUDExposureView.hidden;
+//            break;
+//        case 4:
+//            self.manualHUDVideoZoomFactorView.hidden = !self.manualHUDVideoZoomFactorView.hidden;
+//            break;
+//        case 5:
+//            self.manualHUDWhiteBalanceView.hidden = !self.manualHUDWhiteBalanceView.hidden;
+//            break;
+//
+//        default:
+//            self.manualHUD.hidden = !self.manualHUD.hidden;
+//    }
 }
 
 - (void)setSlider:(UISlider *)slider highlightColor:(UIColor *)color
