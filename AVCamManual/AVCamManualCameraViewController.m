@@ -160,7 +160,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.session = [[AVCaptureSession alloc] init];
     
     NSArray<NSString *> *deviceTypes = @[AVCaptureDeviceTypeBuiltInWideAngleCamera];
@@ -331,85 +331,81 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             self.lensPositionSlider.maximumValue = 1.0;
             self.lensPositionSlider.value = 0.0;
             [self changeFocusMode:nil];
-//            self.videoDevice.focusMode == AVCaptureFocusModeContinuousAutoFocus && [self.videoDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus];
-    
-    
-    
-    // Manual exposure controls
-    self.exposureModes = @[@(AVCaptureExposureModeContinuousAutoExposure), @(AVCaptureExposureModeLocked), @(AVCaptureExposureModeCustom)];
-    
-    
-    self.exposureModeControl.enabled = ( self.videoDevice != nil );
-    self.exposureModeControl.selectedSegmentIndex = 0;//[self.exposureModes indexOfObject:@(self.videoDevice.exposureMode)];
-    for ( NSNumber *mode in self.exposureModes ) {
-        [self.exposureModeControl setEnabled:[self.videoDevice isExposureModeSupported:mode.intValue] forSegmentAtIndex:[self.exposureModes indexOfObject:mode]];
-    }
+            //            self.videoDevice.focusMode == AVCaptureFocusModeContinuousAutoFocus && [self.videoDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus];
+            
+            // Manual exposure controls
+            self.exposureModes = @[@(AVCaptureExposureModeContinuousAutoExposure), @(AVCaptureExposureModeLocked), @(AVCaptureExposureModeCustom)];
+            self.exposureModeControl.enabled = ( self.videoDevice != nil );
+            [self.exposureModeControl setSelectedSegmentIndex:0];
+            for ( NSNumber *mode in self.exposureModes ) {
+                [self.exposureModeControl setEnabled:[self.videoDevice isExposureModeSupported:mode.intValue] forSegmentAtIndex:[self.exposureModes indexOfObject:mode]];
+            }
             [self changeExposureMode:nil];
-            
-            
-    
-    // Use 0-1 as the slider range and do a non-linear mapping from the slider value to the actual device exposure duration
-    self.exposureDurationSlider.minimumValue = 0;
-    self.exposureDurationSlider.maximumValue = 1;
-    double exposureDurationSeconds = CMTimeGetSeconds( self.videoDevice.exposureDuration );
-    double minExposureDurationSeconds = MAX( CMTimeGetSeconds( self.videoDevice.activeFormat.minExposureDuration ), kExposureMinimumDuration );
-    double maxExposureDurationSeconds = CMTimeGetSeconds( self.videoDevice.activeFormat.maxExposureDuration );
-    // Map from duration to non-linear UI range 0-1
-    double p = ( exposureDurationSeconds - minExposureDurationSeconds ) / ( maxExposureDurationSeconds - minExposureDurationSeconds ); // Scale to 0-1
-    self.exposureDurationSlider.value = pow( p, 1 / kExposureDurationPower ); // Apply inverse power
-    self.exposureDurationSlider.enabled = ( self.videoDevice && self.videoDevice.exposureMode == AVCaptureExposureModeCustom);
-    
-    // To-Do: Use this to set the exposure duration to 1.0/3.0 sans slider
-    // [self.videoDevice setExposureModeCustomWithDuration:kCMTimeInvalid /*CMTimeMakeWithSeconds( (1.0/3.0), 1000*1000*1000 )
-    
-    self.ISOSlider.minimumValue = self.videoDevice.activeFormat.minISO;
-    self.ISOSlider.maximumValue = self.videoDevice.activeFormat.maxISO;
-    self.ISOSlider.value = self.videoDevice.ISO;
-    self.ISOSlider.enabled = ( self.videoDevice.exposureMode == AVCaptureExposureModeCustom );
-    
-    self.exposureTargetBiasSlider.minimumValue = self.videoDevice.minExposureTargetBias;
-    self.exposureTargetBiasSlider.maximumValue = self.videoDevice.maxExposureTargetBias;
-    self.exposureTargetBiasSlider.value = self.videoDevice.exposureTargetBias;
-    self.exposureTargetBiasSlider.enabled = ( self.videoDevice != nil );
-    
-    self.exposureTargetOffsetSlider.minimumValue = self.videoDevice.minExposureTargetBias;
-    self.exposureTargetOffsetSlider.maximumValue = self.videoDevice.maxExposureTargetBias;
-    self.exposureTargetOffsetSlider.value = self.videoDevice.exposureTargetOffset;
-    self.exposureTargetOffsetSlider.enabled = NO;
-    
-    self.videoZoomFactorSlider.minimumValue = 0.0;
-            self.videoZoomFactorSlider.maximumValue = 1.0;
-    self.videoZoomFactorSlider.value = 0.0;
-    self.videoZoomFactorSlider.enabled = YES;
-    
-    // To-Do: Restore these for "color-contrasting" overwhite/overblack subject areas (where luminosity contrasting fails)
-    
-    // Manual white balance controls
-    self.whiteBalanceModes = @[@(AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance), @(AVCaptureWhiteBalanceModeLocked)];
-    
-    self.whiteBalanceModeControl.enabled = (self.videoDevice != nil);
-    self.whiteBalanceModeControl.selectedSegmentIndex = [self.whiteBalanceModes indexOfObject:@(self.videoDevice.whiteBalanceMode)];
-    for ( NSNumber *mode in self.whiteBalanceModes ) {
-        [self.whiteBalanceModeControl setEnabled:[self.videoDevice isWhiteBalanceModeSupported:mode.intValue] forSegmentAtIndex:[self.whiteBalanceModes indexOfObject:mode]];
-    }
-    
-    AVCaptureWhiteBalanceGains whiteBalanceGains = self.videoDevice.deviceWhiteBalanceGains;
-    AVCaptureWhiteBalanceTemperatureAndTintValues whiteBalanceTemperatureAndTint = [self.videoDevice temperatureAndTintValuesForDeviceWhiteBalanceGains:whiteBalanceGains];
-    
-    self.temperatureSlider.minimumValue = 3000;
-    self.temperatureSlider.maximumValue = 8000; //self.videoDevice.maxWhiteBalanceGain;
-    self.temperatureSlider.value = whiteBalanceTemperatureAndTint.temperature;
-    self.temperatureSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
-    
-    self.tintSlider.minimumValue = -150;
-    self.tintSlider.maximumValue = 150;
-    self.tintSlider.value = whiteBalanceTemperatureAndTint.tint;
-    self.tintSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
 
+            // Use 0-1 as the slider range and do a non-linear mapping from the slider value to the actual device exposure duration
+            self.exposureDurationSlider.minimumValue = 0;
+            self.exposureDurationSlider.maximumValue = 1;
+            double exposureDurationSeconds = CMTimeGetSeconds( self.videoDevice.exposureDuration );
+            double minExposureDurationSeconds = MAX( CMTimeGetSeconds( self.videoDevice.activeFormat.minExposureDuration ), kExposureMinimumDuration );
+            double maxExposureDurationSeconds = CMTimeGetSeconds( self.videoDevice.activeFormat.maxExposureDuration );
+            // Map from duration to non-linear UI range 0-1
+            double p = ( exposureDurationSeconds - minExposureDurationSeconds ) / ( maxExposureDurationSeconds - minExposureDurationSeconds ); // Scale to 0-1
+            self.exposureDurationSlider.value = pow( p, 1 / kExposureDurationPower ); // Apply inverse power
+            self.exposureDurationSlider.enabled = ( self.videoDevice && self.videoDevice.exposureMode == AVCaptureExposureModeCustom);
+            
+            // To-Do: Use this to set the exposure duration to 1.0/3.0 sans slider
+            // [self.videoDevice setExposureModeCustomWithDuration:kCMTimeInvalid /*CMTimeMakeWithSeconds( (1.0/3.0), 1000*1000*1000 )
+            
+            self.ISOSlider.minimumValue = self.videoDevice.activeFormat.minISO;
+            self.ISOSlider.maximumValue = self.videoDevice.activeFormat.maxISO;
+            self.ISOSlider.value = self.videoDevice.ISO;
+            self.ISOSlider.enabled = ( self.videoDevice.exposureMode == AVCaptureExposureModeCustom );
+            
+            self.exposureTargetBiasSlider.minimumValue = self.videoDevice.minExposureTargetBias;
+            self.exposureTargetBiasSlider.maximumValue = self.videoDevice.maxExposureTargetBias;
+            self.exposureTargetBiasSlider.value = self.videoDevice.exposureTargetBias;
+            self.exposureTargetBiasSlider.enabled = ( self.videoDevice != nil );
+            
+            self.exposureTargetOffsetSlider.minimumValue = self.videoDevice.minExposureTargetBias;
+            self.exposureTargetOffsetSlider.maximumValue = self.videoDevice.maxExposureTargetBias;
+            self.exposureTargetOffsetSlider.value = self.videoDevice.exposureTargetOffset;
+            self.exposureTargetOffsetSlider.enabled = NO;
+            
+            self.videoZoomFactorSlider.minimumValue = 0.0;
+            self.videoZoomFactorSlider.maximumValue = 1.0;
+            self.videoZoomFactorSlider.value = normalizedControlValueFromPropertyValue(self.videoDevice.videoZoomFactor, self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor);
+            self.videoZoomFactorSlider.enabled = YES;
+            
+            
+            
+            // To-Do: Restore these for "color-contrasting" overwhite/overblack subject areas (where luminosity contrasting fails)
+            
+            // Manual white balance controls
+            self.whiteBalanceModes = @[@(AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance), @(AVCaptureWhiteBalanceModeLocked)];
+            
+            self.whiteBalanceModeControl.enabled = (self.videoDevice != nil);
+            self.whiteBalanceModeControl.selectedSegmentIndex = [self.whiteBalanceModes indexOfObject:@(self.videoDevice.whiteBalanceMode)];
+            for ( NSNumber *mode in self.whiteBalanceModes ) {
+                [self.whiteBalanceModeControl setEnabled:[self.videoDevice isWhiteBalanceModeSupported:mode.intValue] forSegmentAtIndex:[self.whiteBalanceModes indexOfObject:mode]];
+            }
+            
+            AVCaptureWhiteBalanceGains whiteBalanceGains = self.videoDevice.deviceWhiteBalanceGains;
+            AVCaptureWhiteBalanceTemperatureAndTintValues whiteBalanceTemperatureAndTint = [self.videoDevice temperatureAndTintValuesForDeviceWhiteBalanceGains:whiteBalanceGains];
+            
+            self.temperatureSlider.minimumValue = 3000;
+            self.temperatureSlider.maximumValue = 8000; //self.videoDevice.maxWhiteBalanceGain;
+            self.temperatureSlider.value = whiteBalanceTemperatureAndTint.temperature;
+            self.temperatureSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
+            
+            self.tintSlider.minimumValue = -150;
+            self.tintSlider.maximumValue = 150;
+            self.tintSlider.value = whiteBalanceTemperatureAndTint.tint;
+            self.tintSlider.enabled = ( self.videoDevice && self.videoDevice.whiteBalanceMode == AVCaptureWhiteBalanceModeLocked );
+            
             if ([_videoDevice isTorchActive])
                 [_videoDevice setTorchMode:0];
-//            else
-//                [_videoDevice setTorchModeOnWithLevel:AVCaptureMaxAvailableTorchLevel error:nil];
+            //            else
+            //                [_videoDevice setTorchModeOnWithLevel:AVCaptureMaxAvailableTorchLevel error:nil];
         } else {
             NSLog(@"AVCaptureDevice lockForConfiguration returned error\t%@", error);
         }
@@ -450,7 +446,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [self toggleControlViewVisibility:@[self.manualHUDExposureView]        hide:(control.selectedSegmentIndex == 2) ? NO : YES];
     [self toggleControlViewVisibility:@[self.manualHUDVideoZoomFactorView] hide:(control.selectedSegmentIndex == 3) ? NO : YES];
     [self toggleControlViewVisibility:@[self.manualHUDWhiteBalanceView] hide:(control.selectedSegmentIndex == 4) ? NO : YES];
-//    [self toggleControlViewVisibility:@[self.manualHUDPresetsView] hide:(control.selectedSegmentIndex == 5) ? NO : YES];
+    //    [self toggleControlViewVisibility:@[self.manualHUDPresetsView] hide:(control.selectedSegmentIndex == 5) ? NO : YES];
 }
 
 - (void)setSlider:(UISlider *)slider highlightColor:(UIColor *)color
@@ -863,22 +859,33 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
 };
 
 - (IBAction)changeVideoZoomFactor:(UISlider *)sender {
-    if (![self.videoDevice isRampingVideoZoom]) {
-        [self willChangeValueForKey:@"videoZoomFactor"];
-        NSError *error = nil;
-        
-        if ( [self.videoDevice lockForConfiguration:&error] ) {
-            float gamma = pow(sender.value, 3.f);
-            float scale = rescale(gamma, 0.f, 3.f, 1.f, self.videoDevice.maxAvailableVideoZoomFactor);
-            [self.videoDevice setVideoZoomFactor:scale];
+    if (![self.videoDevice isRampingVideoZoom] && (sender.value != self.videoDevice.videoZoomFactor)) {
+        @try {
+            ^{
+                __block NSError * e = nil;
+                ^{
+                    return ([self.videoDevice lockForConfiguration:&e] && !e)
+                    ? ^{
+                        [self.videoDevice setVideoZoomFactor:propertyValueFromNormalizedControlValue(sender.value, self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor)];
+                    }()
+                    : ^{
+                        NSException * exception = [NSException
+                                                   exceptionWithName:e.domain
+                                                   reason:e.localizedDescription
+                                                   userInfo:@{@"Error Code" : @(e.code)}];
+                        @throw exception;
+                    }();
+                }();
+            }();
+        } @catch (NSException * exception) {
+            NSLog(@"Error configuring camera:\n\t%@\n\t%@\n\t%lu",
+                  exception.name,
+                  exception.reason,
+                  ((NSNumber *)[exception.userInfo valueForKey:@"Error Code"]).unsignedIntegerValue);
+        } @finally {
             [self.videoDevice unlockForConfiguration];
         }
-        else {
-            NSLog( @"Could not lock device for configuration: %@", error );
-        }
-        [self didChangeValueForKey:@"videoZoomFactor"]; //NSLog(@"Video zoom factor (%lu) value: %f (min: %f\tmax: %f)", property, value, minZoom, maxZoom);
     }
-    
 }
 
 - (IBAction)changeWhiteBalanceMode:(id)sender
@@ -996,13 +1003,13 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
     dispatch_async( dispatch_get_main_queue(), ^{
         [self configureManualHUD];
     });
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self viewDidLoad];
-//    });
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    //        [self viewDidLoad];
+    //    });
 }
 
 - (IBAction)setPreset:(UIButton *)sender {
-//    [self resetAppDefaults];
+    //    [self resetAppDefaults];
     dispatch_async(dispatch_get_main_queue(), ^{
         UISlider *control = self.exposureModeControl;
         NSError *error = nil;
@@ -1018,17 +1025,17 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
         
         control = self.exposureDurationSlider;
         error = nil;
-
+        
         double p = pow( control.value, kExposureDurationPower ); // Apply power function to expand slider's low-end range
-//        double minDurationSeconds = MAX( CMTimeGetSeconds( self.videoDevice.activeFormat.minExposureDuration ), kExposureMinimumDuration );
+        //        double minDurationSeconds = MAX( CMTimeGetSeconds( self.videoDevice.activeFormat.minExposureDuration ), kExposureMinimumDuration );
         double maxDurationSeconds = 1.0/3.0;//CMTimeGetSeconds( self.videoDevice.activeFormat.maxExposureDuration );
-//        double newDurationSeconds = p * ( maxDurationSeconds - minDurationSeconds ) + minDurationSeconds; // Scale from 0-1 slider range to actual duration
+        //        double newDurationSeconds = p * ( maxDurationSeconds - minDurationSeconds ) + minDurationSeconds; // Scale from 0-1 slider range to actual duration
         //    if (newDurationSeconds > 0.330918 && newDurationSeconds < 0.357056)
         //    {
         //        NSLog(@"newDurationSeconds\t%f", newDurationSeconds);
         //        double newDurationSeconds = 0.3309180;
         //    }
-
+        
         if ( [self.videoDevice lockForConfiguration:&error] ) {
             [self.videoDevice setExposureModeCustomWithDuration:CMTimeMakeWithSeconds( maxDurationSeconds, 1000*1000*1000 )  ISO:AVCaptureISOCurrent completionHandler:nil];
             [self.videoDevice unlockForConfiguration];
@@ -1039,41 +1046,41 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
         
         self.manualHUD.hidden = FALSE;
         [self toggleControlViewVisibility:@[self.manualHUDExposureView] hide:NO];
-//
-//        control = self.ISOSlider;
-//        error = nil;
-//
-//        if ( [self.videoDevice lockForConfiguration:&error] ) {
-//            [self.videoDevice setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent ISO:self.videoDevice.activeFormat.maxISO completionHandler:nil];
-//            [self.videoDevice unlockForConfiguration];
-//        }
-//        else {
-//            NSLog( @"Could not lock device for configuration: %@", error );
-//        }
-//
-//
-//        [sender setTag:(sender.tag == 1) ? 0 : 1];
-//        NSLog(@"sender.tag == %lu\n", sender.tag);
-//        [self.exposureModeControl setSelectedSegmentIndex:2];
-//                    [self changeExposureMode:self.exposureModeControl];
+        //
+        //        control = self.ISOSlider;
+        //        error = nil;
+        //
+        //        if ( [self.videoDevice lockForConfiguration:&error] ) {
+        //            [self.videoDevice setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent ISO:self.videoDevice.activeFormat.maxISO completionHandler:nil];
+        //            [self.videoDevice unlockForConfiguration];
+        //        }
+        //        else {
+        //            NSLog( @"Could not lock device for configuration: %@", error );
+        //        }
+        //
+        //
+        //        [sender setTag:(sender.tag == 1) ? 0 : 1];
+        //        NSLog(@"sender.tag == %lu\n", sender.tag);
+        //        [self.exposureModeControl setSelectedSegmentIndex:2];
+        //                    [self changeExposureMode:self.exposureModeControl];
     });
-//    if (sender.tag == 0)
-//    {
-//        // Set camera to optimal exposure duration/ISO settings
-//        dispatch_async( dispatch_get_main_queue(), ^{
-////            [self.videoDevice lockForConfiguration:nil];
-//
-////            [self.ISOSlider setValue:self.ISOSlider.maximumValue];
-////            [self.exposureDurationSlider setValue:self.exposureDurationSlider.maximumValue];
-////            [self changeISO:self.ISOSlider];
-////            [self changeExposureDuration:self.exposureDurationSlider];
-////            [self.videoDevice setExposureModeCustomWithDuration:CMTimeMakeWithSeconds( (1.0/3.0), 1000*1000*1000 )
-////                                                             ISO:averageISO
-////                                               completionHandler:nil];
-//        });
-////            [self.videoDevice unlockForConfiguration];
-//
-//    }
+    //    if (sender.tag == 0)
+    //    {
+    //        // Set camera to optimal exposure duration/ISO settings
+    //        dispatch_async( dispatch_get_main_queue(), ^{
+    ////            [self.videoDevice lockForConfiguration:nil];
+    //
+    ////            [self.ISOSlider setValue:self.ISOSlider.maximumValue];
+    ////            [self.exposureDurationSlider setValue:self.exposureDurationSlider.maximumValue];
+    ////            [self changeISO:self.ISOSlider];
+    ////            [self changeExposureDuration:self.exposureDurationSlider];
+    ////            [self.videoDevice setExposureModeCustomWithDuration:CMTimeMakeWithSeconds( (1.0/3.0), 1000*1000*1000 )
+    ////                                                             ISO:averageISO
+    ////                                               completionHandler:nil];
+    //        });
+    ////            [self.videoDevice unlockForConfiguration];
+    //
+    //    }
 }
 
 
@@ -1200,7 +1207,7 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.videoDevice];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionRuntimeError:) name:AVCaptureSessionRuntimeErrorNotification object:self.session];
-   
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionWasInterrupted:) name:AVCaptureSessionWasInterruptedNotification object:self.session];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionInterruptionEnded:) name:AVCaptureSessionInterruptionEndedNotification object:self.session];
 }
@@ -1351,11 +1358,10 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
     }
     else if ( context == VideoZoomFactorContext) {
         if ( newValue && newValue != [NSNull null] ) {
-            float newZoomFactor = [newValue floatValue];
             dispatch_async( dispatch_get_main_queue(), ^{
-                self.videoZoomFactorSlider.value = rescale(newZoomFactor, 1.0, 3.f, 0.0, 1.0);
-                self.videoZoomFactorValueLabel.text = [NSString stringWithFormat:@"%.1f", newZoomFactor];
-            } );
+                printf("newZoomFactor == %f\t\t videoZoomFactor == %f\n\n", [newValue floatValue], self.videoDevice.videoZoomFactor);
+                [self.videoZoomFactorSlider setValue:normalizedControlValueFromPropertyValue([newValue floatValue], self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor)];
+            });
         }
     }
     else if ( context == WhiteBalanceModeContext ) {
