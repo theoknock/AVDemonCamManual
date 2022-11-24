@@ -864,24 +864,16 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
             ^{
                 __block NSError * e = nil;
                 ^{
-                    return ([self.videoDevice lockForConfiguration:&e] && !e)
-                    ? ^{
-                        [self.videoDevice setVideoZoomFactor:propertyValueFromNormalizedControlValue(sender.value, self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor)];
-                    }()
-                    : ^{
-                        NSException * exception = [NSException
-                                                   exceptionWithName:e.domain
-                                                   reason:e.localizedDescription
-                                                   userInfo:@{@"Error Code" : @(e.code)}];
-                        @throw exception;
-                    }();
+                    ([self.videoDevice lockForConfiguration:&e] && !e)
+                    ? ^{ [self.videoDevice setVideoZoomFactor:propertyValueFromNormalizedControlValue(sender.value, self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor)]; }()
+                    : ^{ @throw [NSException exceptionWithName:e.domain reason:e.localizedFailureReason userInfo:@{@"Error Code" : @(e.code)}]; }();
                 }();
             }();
         } @catch (NSException * exception) {
-            NSLog(@"Error configuring camera:\n\t%@\n\t%@\n\t%lu",
-                  exception.name,
-                  exception.reason,
-                  ((NSNumber *)[exception.userInfo valueForKey:@"Error Code"]).unsignedIntegerValue);
+            printf("Error configuring camera:\n\tDomain: %s\n\tLocalized failure reason: %s\n\tError code: %lu\n",
+                   [exception.name UTF8String],
+                   [exception.reason UTF8String],
+                   [[exception.userInfo valueForKey:@"Error Code"] unsignedIntegerValue]);
         } @finally {
             [self.videoDevice unlockForConfiguration];
         }
