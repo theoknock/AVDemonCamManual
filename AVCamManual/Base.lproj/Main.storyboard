@@ -14,7 +14,7 @@
         <scene sceneID="o5M-B8-Hza">
             <objects>
                 <viewController wantsFullScreenLayout="YES" modalPresentationStyle="fullScreen" id="zFy-Vn-e8f" customClass="AVCamManualCameraViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleAspectFill" id="9Za-05-zwY" customClass="AVCamManualPreviewView">
+                    <view key="view" contentMode="scaleAspectFit" id="9Za-05-zwY" customClass="AVCamManualPreviewView">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -164,10 +164,10 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQT-Nx-cHE">
-                                                <rect key="frame" x="0.0" y="-82" width="984" height="1364"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="984" height="1282"/>
                                                 <subviews>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vvO-Ky-Czn">
-                                                        <rect key="frame" x="0.0" y="90" width="984" height="61"/>
+                                                        <rect key="frame" x="0.0" y="8" width="984" height="61"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="60" id="i0Y-qr-PXp"/>
                                                         </constraints>
@@ -181,10 +181,10 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="1Kg-CX-hzU">
-                                                        <rect key="frame" x="0.0" y="158" width="984" height="120"/>
+                                                        <rect key="frame" x="0.0" y="76" width="984" height="120"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="ByW-l1-Apr">
-                                                                <rect key="frame" x="0.0" y="0.0" width="473.5" height="120"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="441.5" height="120"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CHR-0M-PTU">
                                                                         <rect key="frame" x="0.0" y="0.0" width="55.5" height="60"/>
@@ -207,10 +207,10 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="NSH-XX-aSD">
-                                                                <rect key="frame" x="481.5" y="0.0" width="486" height="120"/>
+                                                                <rect key="frame" x="449.5" y="0.0" width="518" height="120"/>
                                                                 <subviews>
                                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="7R6-CN-WmZ">
-                                                                        <rect key="frame" x="-2" y="0.0" width="490" height="61"/>
+                                                                        <rect key="frame" x="-2" y="0.0" width="522" height="61"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="60" id="2VB-tp-NOU"/>
                                                                         </constraints>
@@ -223,7 +223,7 @@
                                                                         </connections>
                                                                     </slider>
                                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="eau-wv-dU0">
-                                                                        <rect key="frame" x="-2" y="60" width="490" height="61"/>
+                                                                        <rect key="frame" x="-2" y="60" width="522" height="61"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="60" id="PTR-b2-7R3"/>
                                                                         </constraints>
@@ -412,7 +412,6 @@
                                             <constraint firstItem="cXV-kY-9j4" firstAttribute="width" secondItem="Akx-Oj-5Sj" secondAttribute="width" id="ieQ-JM-dJy"/>
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="leading" secondItem="Akx-Oj-5Sj" secondAttribute="leading" id="klD-9H-u7v"/>
                                             <constraint firstAttribute="bottom" secondItem="MDr-ZD-uoq" secondAttribute="bottom" id="nBh-FU-has"/>
-                                            <constraint firstItem="iQT-Nx-cHE" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" constant="-82" id="nnI-Yi-BRZ"/>
                                             <constraint firstItem="XXb-cy-BED" firstAttribute="bottom" secondItem="iQT-Nx-cHE" secondAttribute="bottom" id="pjW-9C-jv9"/>
                                             <constraint firstItem="iQT-Nx-cHE" firstAttribute="top" secondItem="Akx-Oj-5Sj" secondAttribute="top" id="rYn-YP-ah5"/>
                                             <constraint firstAttribute="bottom" secondItem="tCR-0s-Q5n" secondAttribute="bottom" id="tpq-Ow-jgu"/>
@@ -424,7 +423,6 @@
                                             <mask key="constraints">
                                                 <exclude reference="FkJ-uD-qw0"/>
                                                 <exclude reference="8L4-7C-Gdo"/>
-                                                <exclude reference="rYn-YP-ah5"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -502,8 +500,8 @@
                                     <action selector="toggleDisplay:" destination="zFy-Vn-e8f" eventType="touchUpInside" id="d47-1k-iPD"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vRU-a6-qp8">
-                                <rect key="frame" x="0.0" y="20" width="1024" height="1346"/>
+                            <view hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vRU-a6-qp8">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1346"/>
                                 <subviews>
                                     <button opaque="NO" tag="-3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuj-OT-Soh" userLabel="Toggle Cover View Button">
                                         <rect key="frame" x="484" y="640" width="56" height="66"/>
