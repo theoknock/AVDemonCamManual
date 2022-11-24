@@ -124,7 +124,7 @@ typedef NS_ENUM( NSInteger, AVCamManualCaptureMode ) {
 
 static const float kExposureDurationPower = 5; // Higher numbers will give the slider more sensitivity at shorter durations
 static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure duration to a useful range
-
+static const double kVideoZoomFactorPower = 9.f; // Higher numbers will give the slider more sensitivity at shorter durations
 
 #pragma mark View Controller Life Cycle
 
@@ -373,7 +373,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             
             self.videoZoomFactorSlider.minimumValue = 0.0;
             self.videoZoomFactorSlider.maximumValue = 1.0;
-            self.videoZoomFactorSlider.value = normalizedControlValueFromPropertyValue(self.videoDevice.videoZoomFactor, self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor);
+            self.videoZoomFactorSlider.value = property_control_value(self.videoDevice.videoZoomFactor, self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor, kVideoZoomFactorPower);
             self.videoZoomFactorSlider.enabled = YES;
             
             
@@ -853,11 +853,6 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     }
 }
 
-static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (float old_value, float old_min, float old_max, float new_min, float new_max) {
-    float scaled_value = (new_max - new_min) * (old_value - old_min) / (old_max - old_min) + new_min;
-    return scaled_value;
-};
-
 - (IBAction)changeVideoZoomFactor:(UISlider *)sender {
     if (![self.videoDevice isRampingVideoZoom] && (sender.value != self.videoDevice.videoZoomFactor)) {
         @try {
@@ -865,7 +860,7 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
                 __block NSError * e = nil;
                 ^{
                     ([self.videoDevice lockForConfiguration:&e] && !e)
-                    ? ^{ [self.videoDevice setVideoZoomFactor:propertyValueFromNormalizedControlValue(sender.value, self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor)]; }()
+                    ? ^{ [self.videoDevice setVideoZoomFactor:control_property_value(sender.value, self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor, kVideoZoomFactorPower)]; }()
                     : ^{ @throw [NSException exceptionWithName:e.domain reason:e.localizedFailureReason userInfo:@{@"Error Code" : @(e.code)}]; }();
                 }();
             }();
@@ -1351,8 +1346,7 @@ static float (^ _Nonnull rescale)(float, float, float, float, float) = ^ float (
     else if ( context == VideoZoomFactorContext) {
         if ( newValue && newValue != [NSNull null] ) {
             dispatch_async( dispatch_get_main_queue(), ^{
-                printf("newZoomFactor == %f\t\t videoZoomFactor == %f\n\n", [newValue floatValue], self.videoDevice.videoZoomFactor);
-                [self.videoZoomFactorSlider setValue:normalizedControlValueFromPropertyValue([newValue floatValue], self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor)];
+                [self.videoZoomFactorSlider setValue:property_control_value([newValue doubleValue], self.videoDevice.minAvailableVideoZoomFactor, self.videoDevice.activeFormat.videoMaxZoomFactor, kVideoZoomFactorPower)];
             });
         }
     }
